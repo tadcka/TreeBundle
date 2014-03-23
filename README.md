@@ -1,4 +1,4 @@
 TreeBundle
 ==========
 
-Tree manager bundle.
+Tree manager bundle, not stable.
