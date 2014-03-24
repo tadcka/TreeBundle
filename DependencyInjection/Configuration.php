@@ -1,14 +1,23 @@
 <?php
 
+/*
+ * This file is part of the Tadcka package.
+ *
+ * (c) Tadcka <tadcka89@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Tadcka\Bundle\TreeBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This is the class that validates and merges configuration from your app/config files
+ * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
+ * @since 3/24/14 10:28 PM
  */
 class Configuration implements ConfigurationInterface
 {
@@ -20,9 +29,20 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('tadcka_tree');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->scalarNode('db_driver')->cannotBeOverwritten()->isRequired()->end()
+                ->scalarNode('tree_manager')->defaultValue('tadcka_tree.manager.tree.default')->cannotBeEmpty()->end()
+                ->arrayNode('class')->isRequired()
+                    ->children()
+                        ->arrayNode('model')->isRequired()
+                            ->children()
+                                ->scalarNode('tree')->isRequired()->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }

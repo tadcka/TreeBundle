@@ -21,6 +21,78 @@ use Tadcka\Bundle\TreeBundle\Model\Tree as BaseTree;
  */
 class Tree extends BaseTree
 {
+    /**
+     * @var array|TreeTranslationInterface[]
+     *
+     * @ORM\OneToMany(
+     *      targetEntity="Tadcka\AcmeBundle\Entity\TreeTranslation",
+     *      mappedBy="tree",
+     *      cascade={"persist", "remove"}
+     * )
+     */
+    protected $translations;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->translations = new ArrayCollection();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addTranslation(TreeTranslationInterface $translation)
+    {
+        $this->translations[] = $translation;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeTranslation(TreeTranslationInterface $translation)
+    {
+        $this->translations->removeElement($translation);
+    }
+}
+```
+
+## TreeTranslation
+
+``` php
+<?php
+
+namespace Tadcka\AcmeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Tadcka\Bundle\TreeBundle\Model\TreeInterface;
+use Tadcka\Bundle\TreeBundle\Model\TreeTranslation as BaseTreeItemTranslation;
+
+/**
+ * Class TreeTranslation
+ *
+ * @package Tadcka\AcmeBundle\Entity
+ *
+ * @ORM\Entity
+ * @ORM\Table(
+ *      name="tadcka_tree_translation",
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="unique_lang_idx", columns={"tree_id", "lang"})
+ *      }
+ * )
+ */
+class TreeTranslation extends BaseTreeItemTranslation
+{
+    /**
+     * @var TreeInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Tadcka\AcmeBundle\Entity\Tree", inversedBy="translations")
+     * @ORM\JoinColumn(name="tree_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
+     */
+    protected $tree;
 }
 ```
 

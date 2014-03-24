@@ -63,4 +63,43 @@ interface TreeInterface
      * @return \Datetime
      */
     public function getUpdatedAt();
+
+    /**
+     * Set translations.
+     *
+     * @param array|TreeTranslationInterface[] $translations
+     *
+     * @return TreeInterface
+     */
+    public function setTranslations($translations);
+
+    /**
+     * Get translations.
+     *
+     * @return array|TreeTranslationInterface[]
+     */
+    public function getTranslations();
+
+    /**
+     * Get translation.
+     *
+     * @param $lang
+     *
+     * @return null|TreeTranslationInterface
+     */
+    public function getTranslation($lang);
+
+    /**
+     * Add translation.
+     *
+     * @param TreeTranslationInterface $translation
+     */
+    public function addTranslation(TreeTranslationInterface $translation);
+
+    /**
+     * Remove translation.
+     *
+     * @param TreeTranslationInterface $translation
+     */
+    public function removeTranslation(TreeTranslationInterface $translation);
 }

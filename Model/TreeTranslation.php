@@ -14,9 +14,9 @@ namespace Tadcka\Bundle\TreeBundle\Model;
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
- * @since 2/26/14 1:01 AM
+ * @since 3/24/14 10:45 PM
  */
-abstract class TreeItemTranslation implements TreeItemTranslationInterface
+class TreeTranslation implements TreeTranslationInterface
 {
     /**
      * @var int
@@ -24,9 +24,9 @@ abstract class TreeItemTranslation implements TreeItemTranslationInterface
     protected $id;
 
     /**
-     * @var TreeItemInterface
+     * @var TreeInterface
      */
-    protected $treeItem;
+    protected $tree;
 
     /**
      * @var string
@@ -39,11 +39,6 @@ abstract class TreeItemTranslation implements TreeItemTranslationInterface
     protected $title;
 
     /**
-     * @var string
-     */
-    protected $description;
-
-    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -54,9 +49,9 @@ abstract class TreeItemTranslation implements TreeItemTranslationInterface
     /**
      * {@inheritdoc}
      */
-    public function setTreeItem(TreeItemInterface $treeItem)
+    public function setTree(TreeInterface $tree)
     {
-        $this->treeItem = $treeItem;
+        $this->tree = $tree;
 
         return $this;
     }
@@ -64,9 +59,9 @@ abstract class TreeItemTranslation implements TreeItemTranslationInterface
     /**
      * {@inheritdoc}
      */
-    public function getTreeItem()
+    public function getTree()
     {
-        return $this->treeItem;
+        return $this->tree;
     }
 
     /**
@@ -103,23 +98,5 @@ abstract class TreeItemTranslation implements TreeItemTranslationInterface
     public function getTitle()
     {
         return $this->title;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 }

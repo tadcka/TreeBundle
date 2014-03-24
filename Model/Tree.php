@@ -16,7 +16,7 @@ namespace Tadcka\Bundle\TreeBundle\Model;
  *
  * @since 2/26/14 12:43 AM
  */
-abstract class Tree
+abstract class Tree implements TreeInterface
 {
     /**
      * @var int
@@ -39,12 +39,19 @@ abstract class Tree
     protected $updatedAt;
 
     /**
+     * @var array|TreeTranslationInterface[]
+     */
+    protected $translations;
+
+    /**
      * Constructor.
      */
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = $this->createdAt;
+
+        $this->translations = array();
     }
 
     /**
@@ -82,7 +89,7 @@ abstract class Tree
     /**
      * {@inheritdoc}
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
     }
@@ -93,5 +100,37 @@ abstract class Tree
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTranslations($translations)
+    {
+        $this->translations = $translations;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTranslation($lang)
+    {
+        foreach ($this->translations as $translation) {
+            if ($lang === $translation->getLang()) {
+                return $translation;
+            }
+        }
+
+        return null;
     }
 }
