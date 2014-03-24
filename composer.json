@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Tadcka\\TreeBundle\\": ""
+            "Tadcka\\Bundle\\TreeBundle\\": ""
         }
     }
 }
