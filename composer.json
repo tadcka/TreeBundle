@@ -15,8 +15,12 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle" : ">=2.3",
+
         "doctrine/doctrine-bundle": "dev-master",
-        "stof/doctrine-extensions-bundle": "~1.1"
+
+        "stof/doctrine-extensions-bundle": "~1.1",
+        "friendsofsymfony/jsrouting-bundle": "~1.5",
+        "jms/serializer-bundle": "~0.13"
     },
     "autoload": {
         "psr-4": {

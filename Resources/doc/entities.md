@@ -207,7 +207,7 @@ class TreeItem extends BaseTreeItem
 }
 ```
 
-## StatusTranslation
+## TreeItemTranslation
 
 ``` php
 <?php

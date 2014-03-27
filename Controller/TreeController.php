@@ -11,6 +11,7 @@
 
 namespace Tadcka\Bundle\TreeBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Request;
 use Tadcka\Bundle\TreeBundle\ModelManager\TreeManagerInterface;
@@ -23,6 +24,14 @@ use Tadcka\Bundle\TreeBundle\ModelManager\TreeManagerInterface;
 class TreeController extends ContainerAware
 {
     /**
+     * @return EngineInterface
+     */
+    private function getTemplating()
+    {
+        return $this->container->get('templating');
+    }
+
+    /**
      * @return TreeManagerInterface
      */
     private function getManager()
@@ -32,7 +41,7 @@ class TreeController extends ContainerAware
 
     public function indexAction()
     {
-
+        return $this->getTemplating()->renderResponse('TadckaTreeBundle:Tree:index.html.twig');
     }
 
     public function createAction(Request $request)
