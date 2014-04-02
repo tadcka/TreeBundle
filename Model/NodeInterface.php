@@ -14,9 +14,9 @@ namespace Tadcka\Bundle\TreeBundle\Model;
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
- * @since 2/26/14 12:06 AM
+ * @since 4/2/14 10:48 PM
  */
-interface TreeItemInterface
+interface NodeInterface
 {
     /**
      * Get id.
@@ -26,11 +26,27 @@ interface TreeItemInterface
     public function getId();
 
     /**
+     * Set root.
+     *
+     * @param int $root
+     *
+     * @return NodeInterface
+     */
+    public function setRoot($root);
+
+    /**
+     * Get root.
+     *
+     * @return int
+     */
+    public function getRoot();
+
+    /**
      * Set left.
      *
      * @param int $left
      *
-     * @return TreeItemInterface
+     * @return NodeInterface
      */
     public function setLeft($left);
 
@@ -46,7 +62,7 @@ interface TreeItemInterface
      *
      * @param int $level
      *
-     * @return TreeItemInterface
+     * @return NodeInterface
      */
     public function setLevel($level);
 
@@ -62,7 +78,7 @@ interface TreeItemInterface
      *
      * @param int $right
      *
-     * @return TreeItemInterface
+     * @return NodeInterface
      */
     public function setRight($right);
 
@@ -76,62 +92,62 @@ interface TreeItemInterface
     /**
      * Set parent.
      *
-     * @param TreeItemInterface $parent
+     * @param NodeInterface $parent
      *
-     * @return TreeItemInterface
+     * @return NodeInterface
      */
-    public function setParent(TreeItemInterface $parent);
+    public function setParent(NodeInterface $parent);
 
     /**
      * Get parent.
      *
-     * @return TreeItemInterface
+     * @return NodeInterface
      */
     public function getParent();
 
     /**
      * Set children.
      *
-     * @param array|TreeItemInterface[] $children
+     * @param array|NodeInterface[] $children
      *
-     * @return TreeItemInterface
+     * @return NodeInterface
      */
     public function setChildren($children);
 
     /**
      * Get children.
      *
-     * @return array|TreeItemInterface[]
+     * @return array|NodeInterface[]
      */
     public function getChildren();
 
     /**
      * Add child.
      *
-     * @param TreeItemInterface $child
+     * @param NodeInterface $child
      */
-    public function addChild(TreeItemInterface $child);
+    public function addChild(NodeInterface $child);
 
     /**
      * Remove child.
      *
-     * @param TreeItemInterface $child
+     * @param NodeInterface $child
      */
-    public function removeChild(TreeItemInterface $child);
+    public function removeChild(NodeInterface $child);
 
     /**
      * Set translations.
      *
-     * @param array|TreeItemTranslationInterface[] $translations
+     * @param array|NodeTranslationInterface[] $translations
      *
-     * @return TreeItemInterface
+     * @return NodeInterface
      */
     public function setTranslations($translations);
 
     /**
      * Get translations.
      *
-     * @return array|TreeItemTranslationInterface[]
+     * @return array|NodeTranslationInterface[]
      */
     public function getTranslations();
 
@@ -140,38 +156,21 @@ interface TreeItemInterface
      *
      * @param $lang
      *
-     * @return null|TreeItemTranslationInterface
+     * @return null|NodeTranslationInterface
      */
     public function getTranslation($lang);
 
     /**
      * Add translation.
      *
-     * @param TreeItemTranslationInterface $translation
+     * @param NodeTranslationInterface $translation
      */
-    public function addTranslation(TreeItemTranslationInterface $translation);
+    public function addTranslation(NodeTranslationInterface $translation);
 
     /**
      * Remove translation.
      *
-     * @param TreeItemTranslationInterface $translation
+     * @param NodeTranslationInterface $translation
      */
-    public function removeTranslation(TreeItemTranslationInterface $translation);
-
-    /**
-     * Set tree.
-     *
-     * @param TreeInterface $tree
-     *
-     * @return TreeItemInterface
-     */
-    public function setTree(TreeInterface $tree);
-
-    /**
-     * Get tree.
-     *
-     * @return TreeInterface
-     */
-    public function getTree();
+    public function removeTranslation(NodeTranslationInterface $translation);
 }
- 

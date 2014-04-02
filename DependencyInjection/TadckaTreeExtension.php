@@ -40,7 +40,9 @@ class TadckaTreeExtension extends Extension
         $loader->load('driver/' . sprintf('%s.xml', $config['db_driver']));
 
         $container->setParameter('tadcka_tree.model.tree.class', $config['class']['model']['tree']);
+        $container->setParameter('tadcka_tree.model.node.class', $config['class']['model']['node']);
 
         $container->setAlias('tadcka_tree.manager.tree', $config['tree_manager']);
+        $container->setAlias('tadcka_tree.manager.node', $config['node_manager']);
     }
 }

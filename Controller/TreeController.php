@@ -41,6 +41,7 @@ class TreeController extends ContainerAware
 
     public function indexAction()
     {
+
         return $this->getTemplating()->renderResponse('TadckaTreeBundle:Tree:index.html.twig');
     }
 

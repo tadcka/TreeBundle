@@ -14,9 +14,9 @@ namespace Tadcka\Bundle\TreeBundle\Model;
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
- * @since 2/26/14 1:01 AM
+ * @since 4/2/14 10:50 PM
  */
-interface TreeItemTranslationInterface
+interface NodeTranslationInterface
 {
     /**
      * Get id.
@@ -28,25 +28,25 @@ interface TreeItemTranslationInterface
     /**
      * Set treeItem.
      *
-     * @param TreeItemInterface $treeItem
+     * @param NodeInterface $node
      *
-     * @return TreeItemTranslationInterface
+     * @return NodeTranslationInterface
      */
-    public function setTreeItem(TreeItemInterface $treeItem);
+    public function setNode(NodeInterface $node);
 
     /**
      * Get treeItem.
      *
-     * @return TreeItemInterface
+     * @return NodeInterface
      */
-    public function getTreeItem();
+    public function getNode();
 
     /**
      * Set lang.
      *
      * @param string $lang
      *
-     * @return TreeItemTranslationInterface
+     * @return NodeTranslationInterface
      */
     public function setLang($lang);
 
@@ -62,7 +62,7 @@ interface TreeItemTranslationInterface
      *
      * @param string $title
      *
-     * @return TreeItemTranslationInterface
+     * @return NodeTranslationInterface
      */
     public function setTitle($title);
 
@@ -78,7 +78,7 @@ interface TreeItemTranslationInterface
      *
      * @param string $description
      *
-     * @return TreeItemTranslationInterface
+     * @return NodeTranslationInterface
      */
     public function setDescription($description);
 

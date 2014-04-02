@@ -14,9 +14,9 @@ namespace Tadcka\Bundle\TreeBundle\Model;
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
- * @since 2/26/14 1:01 AM
+ * @since 4/2/14 10:52 PM
  */
-abstract class TreeItemTranslation implements TreeItemTranslationInterface
+abstract class NodeTranslation implements NodeTranslationInterface
 {
     /**
      * @var int
@@ -24,9 +24,9 @@ abstract class TreeItemTranslation implements TreeItemTranslationInterface
     protected $id;
 
     /**
-     * @var TreeItemInterface
+     * @var NodeInterface
      */
-    protected $treeItem;
+    protected $node;
 
     /**
      * @var string
@@ -54,9 +54,9 @@ abstract class TreeItemTranslation implements TreeItemTranslationInterface
     /**
      * {@inheritdoc}
      */
-    public function setTreeItem(TreeItemInterface $treeItem)
+    public function setNode(NodeInterface $node)
     {
-        $this->treeItem = $treeItem;
+        $this->node = $node;
 
         return $this;
     }
@@ -64,9 +64,9 @@ abstract class TreeItemTranslation implements TreeItemTranslationInterface
     /**
      * {@inheritdoc}
      */
-    public function getTreeItem()
+    public function getNode()
     {
-        return $this->treeItem;
+        return $this->node;
     }
 
     /**

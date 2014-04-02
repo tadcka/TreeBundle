@@ -12,23 +12,24 @@
 namespace Tadcka\Bundle\TreeBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
 
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
- * @since 3/27/14 11:18 PM
+ * @since 4/2/14 11:11 PM
  */
-class TreeItemController extends ContainerAware
+class NodeController extends ContainerAware
 {
-
-
-    public function rootAction()
+    /**
+     * @return NodeManagerInterface
+     */
+    private function getManager()
     {
-
+        return $this->container->get('tadcka_tree.manager.node');
     }
 
-    public function itemAction()
+    public function createAction()
     {
-
     }
 }

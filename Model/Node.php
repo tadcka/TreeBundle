@@ -16,22 +16,27 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
- * @since 2/26/14 12:06 AM
+ * @since 4/2/14 10:47 PM
  */
 
 /**
- * Class TreeItem
+ * Class Node
  *
- * @package Tadcka
- *
- * @Gedmo\Tree(type="nested")
+ * @package Tadcka\Bundle\TreeBundle\Model
  */
-abstract class TreeItem implements TreeItemInterface
+abstract class Node implements NodeInterface
 {
     /**
      * @var int
      */
     protected $id;
+
+    /**
+     * @Gedmo\TreeRoot
+     *
+     * @var int
+     */
+    protected $root;
 
     /**
      * @var int
@@ -55,24 +60,19 @@ abstract class TreeItem implements TreeItemInterface
     protected $right;
 
     /**
-     * @var TreeItemInterface
+     * @var NodeInterface
      */
     protected $parent;
 
     /**
-     * @var array|TreeItemInterface[]
+     * @var array|NodeInterface[]
      */
     protected $children;
 
     /**
-     * @var array|TreeItemTranslationInterface[]
+     * @var array|NodeTranslationInterface[]
      */
     protected $translations;
-
-    /**
-     * @var TreeInterface
-     */
-    protected $tree;
 
     /**
      * Constructor.
@@ -94,9 +94,29 @@ abstract class TreeItem implements TreeItemInterface
     /**
      * {@inheritdoc}
      */
+    public function setRoot($root)
+    {
+        $this->root = $root;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setLeft($left)
     {
         $this->left = $left;
+
+        return $this;
     }
 
     /**
@@ -146,7 +166,7 @@ abstract class TreeItem implements TreeItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setParent(TreeItemInterface $parent)
+    public function setParent(NodeInterface $parent)
     {
         $this->parent = $parent;
 
@@ -209,23 +229,5 @@ abstract class TreeItem implements TreeItemInterface
         }
 
         return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setTree(TreeInterface $tree)
-    {
-        $this->tree = $tree;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTree()
-    {
-        return $this->tree;
     }
 }
