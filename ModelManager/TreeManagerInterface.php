@@ -21,22 +21,13 @@ use Tadcka\Bundle\TreeBundle\Model\TreeInterface;
 interface TreeManagerInterface
 {
     /**
-     * Find tree by id.
+     * Find tree by root id.
      *
-     * @param $treeId
+     * @param int $rootId
      *
      * @return null|TreeInterface
      */
-    public function findTreeById($treeId);
-
-    /**
-     * Find many trees by ids.
-     *
-     * @param array $treeIds
-     *
-     * @return array|TreeInterface[]
-     */
-    public function findManyTreesByIds(array $treeIds);
+    public function findTreeByRootId($rootId);
 
     /**
      * Find many trees.

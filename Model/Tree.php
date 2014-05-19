@@ -29,6 +29,11 @@ abstract class Tree implements TreeInterface
     protected $slug;
 
     /**
+     * @var int
+     */
+    protected $rootId;
+
+    /**
      * @var \Datetime
      */
     protected $createdAt;
@@ -39,19 +44,12 @@ abstract class Tree implements TreeInterface
     protected $updatedAt;
 
     /**
-     * @var array|TreeTranslationInterface[]
-     */
-    protected $translations;
-
-    /**
      * Constructor.
      */
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = $this->createdAt;
-
-        $this->translations = array();
     }
 
     /**
@@ -81,6 +79,24 @@ abstract class Tree implements TreeInterface
     /**
      * {@inheritdoc}
      */
+    public function setRootId($rootId)
+    {
+        $this->rootId = $rootId;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRootId()
+    {
+        return $this->rootId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCreatedAt()
     {
         return $this->createdAt;
@@ -100,37 +116,5 @@ abstract class Tree implements TreeInterface
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setTranslations($translations)
-    {
-        $this->translations = $translations;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTranslations()
-    {
-        return $this->translations;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTranslation($lang)
-    {
-        foreach ($this->translations as $translation) {
-            if ($lang === $translation->getLang()) {
-                return $translation;
-            }
-        }
-
-        return null;
     }
 }

@@ -7,7 +7,7 @@ $(document).ready(function() {
             'data' : {
                 'url' : function (node) {
                     return node.id === '#' ?
-                        Routing.generate('tadcka_tree_node_root', {id: 1}) : Routing.generate('tadcka_tree_node', {id: 1});
+                        Routing.generate('tadcka_tree_node_root', {rootId: 3}) : Routing.generate('tadcka_tree_node', {id: 1});
                 }
 //                ,
 //                'data' : function (node) {

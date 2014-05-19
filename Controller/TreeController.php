@@ -13,9 +13,10 @@ namespace Tadcka\Bundle\TreeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Tadcka\Bundle\TreeBundle\ModelManager\TreeManagerInterface;
+use Tadcka\Bundle\TreeBundle\Form\Factory\NodeFormFactory;
+use Tadcka\Bundle\TreeBundle\Form\Handler\NodeFormHandler;
+use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
 
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
@@ -33,24 +34,44 @@ class TreeController extends ContainerAware
     }
 
     /**
-     * @return TreeManagerInterface
+     * @return NodeManagerInterface
      */
-    private function getManager()
+    private function getNodeManager()
     {
-        return $this->container->get('tadcka_tree.manager.tree');
+        return $this->container->get('tadcka_tree.manager.node');
     }
 
-    public function getRootAction(Request $request)
+    /**
+     * @return NodeFormFactory
+     */
+    private function getFormFactory()
     {
-        $data = array(
+        return $this->container->get('tadcka_tree.form_factory.node');
+    }
 
+    /**
+     * @return NodeFormHandler
+     */
+    private function getFormHandler()
+    {
+        return $this->container->get('tadcka_tree.form_handler.node');
+    }
+
+    public function createAction(Request $request)
+    {
+        $form = $this->getFormFactory()->create($this->getNodeManager()->create());
+
+        $handler = $this->getFormHandler();
+
+        if (true === $handler->process($request, $form)) {
+            $this->getNodeManager()->save();
+
+            $handler->onSuccess($form->getData());
+        }
+
+        return $this->getTemplating()->renderResponse(
+            'TadckaTreeBundle:Tree:create.html.twig',
+            array('form' => $form->createView())
         );
-
-        return new JsonResponse($data);
-    }
-
-    public function getChildren(Request $request, $nodeId)
-    {
-
     }
 }

@@ -4,20 +4,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="tadcka_tree_root" pattern="/tree/root">
-        <default key="_controller">TadckaTreeBundle:Tree:getRoot</default>
-    </route>
-
-    <route id="tadcka_tree_children" pattern="/tree/create">
+    <route id="tadcka_tree_create" pattern="/tree/create">
         <default key="_controller">TadckaTreeBundle:Tree:create</default>
-    </route>
-
-    <route id="tadcka_tree_edit" pattern="/tree/edit/{treeId}">
-        <default key="_controller">TadckaTreeBundle:Tree:edit</default>
-    </route>
-
-    <route id="tadcka_tree_delete" pattern="/tree/delete/{treeId}">
-        <default key="_controller">TadckaTreeBundle:Tree:delete</default>
     </route>
 
 </routes>

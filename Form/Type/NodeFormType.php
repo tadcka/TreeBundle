@@ -18,15 +18,28 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
- * @since 3/24/14 11:42 PM
+ * @since 5/19/14 10:50 PM
  */
-class TreeFormType extends AbstractType
+class NodeFormType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add(
+            'translations',
+            'translations',
+            array(
+                'label' => false,
+                'type' => new NodeTranslationFormType(),
+                'options' => array(
+                    'data_class' => $options['translation_class']
+                ),
+            )
+        );
+
+        $builder->add('submit', 'submit', array('label' => 'form.button.save'));
     }
 
     /**
@@ -34,6 +47,8 @@ class TreeFormType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        $resolver->setOptional(array('translation_class'));
+
         $resolver->setDefaults(
             array(
                 'translation_domain' => 'TadckaTreeBundle',
@@ -46,6 +61,6 @@ class TreeFormType extends AbstractType
      */
     public function getName()
     {
-        return 'tadcka_tree';
+        return 'tadcka_node';
     }
 }

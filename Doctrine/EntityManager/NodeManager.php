@@ -41,16 +41,23 @@ class NodeManager extends BaseNodeManager
     /**
      * Constructor.
      *
-     * @param EntityManager     $em
-     * @param string            $class
+     * @param EntityManager $em
+     * @param string $class
      */
     public function __construct(EntityManager $em, $class)
     {
-        $this->em         = $em;
+        $this->em = $em;
         $this->repository = $em->getRepository($class);
-        $this->class      = $em->getClassMetadata($class)->name;
+        $this->class = $em->getClassMetadata($class)->name;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function findRoot($rootId)
+    {
+        return $this->repository->findOneBy(array('root' => $rootId));
+    }
 
     /**
      * {@inheritdoc}

@@ -28,7 +28,7 @@ class Root
     private $text;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @Type("boolean")
      */
@@ -59,7 +59,7 @@ class Root
     /**
      * Get children.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasChildren()
     {

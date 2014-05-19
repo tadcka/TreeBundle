@@ -22,6 +22,8 @@
 
         <field name="slug" column="slug" type="string" length="255" unique="true" nullable="false" />
 
+        <field name="rootId" column="root_id" type="integer"  unique="true" nullable="false" />
+
         <field name="createdAt" column="created_at" type="datetime" nullable="false" />
 
         <field name="updatedAt" column="updated_at" type="datetime" nullable="false" />

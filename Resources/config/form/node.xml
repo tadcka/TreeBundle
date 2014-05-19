@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="tadcka_tree.form_factory.node.class">Tadcka\Bundle\TreeBundle\Form\Factory\NodeFormFactory</parameter>
+        <parameter key="tadcka_tree.form_handler.node.class">Tadcka\Bundle\TreeBundle\Form\Handler\NodeFormHandler</parameter>
+    </parameters>
+
+    <services>
+        <!--Node form factory-->
+        <service id="tadcka_tree.form_factory.node" class="%tadcka_tree.form_factory.node.class%">
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="router" />
+            <argument>%tadcka_tree.model.node.class%</argument>
+            <argument>%tadcka_tree.model.node_translation.class%</argument>
+        </service>
+
+        <!--Node form handler-->
+        <service id="tadcka_tree.form_handler.node" class="%tadcka_tree.form_handler.node.class%">
+            <argument type="service" id="tadcka_tree.manager.node" />
+            <argument type="service" id="tadcka_tree.manager.tree" />
+        </service>
+    </services>
+
+</container>

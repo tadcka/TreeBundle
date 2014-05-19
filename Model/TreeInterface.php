@@ -42,6 +42,22 @@ interface TreeInterface
     public function getSlug();
 
     /**
+     * Set rootId.
+     *
+     * @param int $rootId
+     *
+     * @return TreeInterface
+     */
+    public function setRootId($rootId);
+
+    /**
+     * Get rootId.
+     *
+     * @return int
+     */
+    public function getRootId();
+
+    /**
      * Get createdAt.
      *
      * @return \Datetime
@@ -63,43 +79,4 @@ interface TreeInterface
      * @return \Datetime
      */
     public function getUpdatedAt();
-
-    /**
-     * Set translations.
-     *
-     * @param array|TreeTranslationInterface[] $translations
-     *
-     * @return TreeInterface
-     */
-    public function setTranslations($translations);
-
-    /**
-     * Get translations.
-     *
-     * @return array|TreeTranslationInterface[]
-     */
-    public function getTranslations();
-
-    /**
-     * Get translation.
-     *
-     * @param $lang
-     *
-     * @return null|TreeTranslationInterface
-     */
-    public function getTranslation($lang);
-
-    /**
-     * Add translation.
-     *
-     * @param TreeTranslationInterface $translation
-     */
-    public function addTranslation(TreeTranslationInterface $translation);
-
-    /**
-     * Remove translation.
-     *
-     * @param TreeTranslationInterface $translation
-     */
-    public function removeTranslation(TreeTranslationInterface $translation);
 }

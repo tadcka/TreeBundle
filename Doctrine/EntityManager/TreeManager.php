@@ -54,33 +54,9 @@ class TreeManager extends BaseTreeManager
     /**
      * {@inheritdoc}
      */
-    public function findTreeById($treeId)
+    public function findTreeByRootId($rootId)
     {
-        $qb = $this->repository->createQueryBuilder('t');
-        $qb->leftJoin('t.translations', 'trans');
-
-        $qb->where($qb->expr()->eq('t.id', ':tree_id'))
-            ->setParameter('tree_id', $treeId);
-
-        $qb->select('t, trans');
-
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findManyTreesByIds(array $treeIds)
-    {
-        $qb = $this->repository->createQueryBuilder('t');
-        $qb->leftJoin('t.translations', 'trans');
-
-        $qb->where($qb->expr()->in('t.id', ':tree_ids'))
-            ->setParameter('tree_ids', $treeIds);
-
-        $qb->select('t, trans');
-
-        return $qb->getQuery()->getResult();
+        return $this->repository->findOneBy(array('rootId' => $rootId));
     }
 
     /**

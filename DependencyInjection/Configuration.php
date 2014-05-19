@@ -40,6 +40,7 @@ class Configuration implements ConfigurationInterface
                             ->children()
                                 ->scalarNode('tree')->isRequired()->end()
                                 ->scalarNode('node')->isRequired()->end()
+                                ->scalarNode('node_translation')->isRequired()->end()
                             ->end()
                         ->end()
                     ->end()

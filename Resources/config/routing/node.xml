@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
 
-    <route id="tadcka_tree_node_root" pattern="tree/root-node/{id}">
+    <route id="tadcka_tree_node_root" pattern="tree/root-node/{rootId}">
         <default key="_controller">TadckaTreeBundle:Node:getRoot</default>
         <option key="expose">true</option>
     </route>

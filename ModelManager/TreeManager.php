@@ -11,7 +11,6 @@
 
 namespace Tadcka\Bundle\TreeBundle\ModelManager;
 
-
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
@@ -25,8 +24,8 @@ abstract class TreeManager implements TreeManagerInterface
     public function create()
     {
         $className = $this->getClass();
-        $tree = new $className;
+        $root = new $className;
 
-        return $tree;
+        return $root;
     }
 }

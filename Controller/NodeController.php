@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tadcka\Bundle\TreeBundle\Frontend\Model\Node;
 use Tadcka\Bundle\TreeBundle\Frontend\Model\Root;
 use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
 
@@ -42,18 +43,33 @@ class NodeController extends ContainerAware
         return $this->container->get('serializer');
     }
 
-    public function getRootAction($id)
+    public function getRootAction(Request $request, $rootId)
     {
-        $root = new Root('bandymas', true);
+        $root = $this->getManager()->findRoot($rootId);
+        if (null !== $root) {
+            $translation = $root->getTranslation($request->getLocale());
+            if (null !== $translation) {
+                $root = new Root($translation->getTitle(), count($root->getChildren()) ? true : false);
 
-        $response = new Response($this->getSerializer()->serialize(array($root), 'json'));
+                $response = new Response($this->getSerializer()->serialize(array($root), 'json'));
+                $response->headers->set('Content-Type', 'application/json');
+
+                return $response;
+            }
+        }
+
+        return new Response();
+    }
+
+    public function getNodeAction(Request $request, $id)
+    {
+        $node = new Node(2, '#', 'Naujas');
+        $node2 = new Node(21, '#', 'Naujas11');
+
+        $response = new Response($this->getSerializer()->serialize(array($node, $node2), 'json'));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
-    }
-
-    public function getNode(Request $request, $id)
-    {
-
+//        return new Response();
     }
 }
