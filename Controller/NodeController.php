@@ -11,7 +11,12 @@
 
 namespace Tadcka\Bundle\TreeBundle\Controller;
 
+use JMS\Serializer\SerializerInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Tadcka\Bundle\TreeBundle\Frontend\Model\Root;
 use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
 
 /**
@@ -29,7 +34,26 @@ class NodeController extends ContainerAware
         return $this->container->get('tadcka_tree.manager.node');
     }
 
-    public function createAction()
+    /**
+     * @return SerializerInterface
+     */
+    private function getSerializer()
     {
+        return $this->container->get('serializer');
+    }
+
+    public function getRootAction($id)
+    {
+        $root = new Root('bandymas', true);
+
+        $response = new Response($this->getSerializer()->serialize(array($root), 'json'));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    public function getNode(Request $request, $id)
+    {
+
     }
 }

@@ -7,31 +7,32 @@ $(document).ready(function() {
             'data' : {
                 'url' : function (node) {
                     return node.id === '#' ?
-                        'ajax_demo_roots.json' : 'ajax_demo_children.json';
-                },
-                'data' : function (node) {
-                    return { 'id' : node.id };
+                        Routing.generate('tadcka_tree_node_root', {id: 1}) : Routing.generate('tadcka_tree_node', {id: 1});
                 }
+//                ,
+//                'data' : function (node) {
+//                    return { 'id' : node.id };
+//                }
             }
         },
-        "types" : {
-            "#" : {
-                "max_children" : 1,
-                "max_depth" : 4,
-                "valid_children" : ["root"]
-            },
-            "root" : {
-                "icon" : "/static/3.0.0-beta10/assets/images/tree_icon.png",
-                "valid_children" : ["default"]
-            },
-            "default" : {
-                "valid_children" : ["default","file"]
-            },
-            "file" : {
-                "icon" : "glyphicon glyphicon-file",
-                "valid_children" : []
-            }
-        },
+//        "types" : {
+//            "#" : {
+//                "max_children" : 1,
+//                "max_depth" : 4,
+//                "valid_children" : ["root"]
+//            },
+//            "root" : {
+//                "icon" : "/static/3.0.0-beta10/assets/images/tree_icon.png",
+//                "valid_children" : ["default"]
+//            },
+//            "default" : {
+//                "valid_children" : ["default","file"]
+//            },
+//            "file" : {
+//                "icon" : "glyphicon glyphicon-file",
+//                "valid_children" : []
+//            }
+//        },
         "plugins" : [
             "contextmenu", "dnd", "search",
             "state", "types", "wholerow"

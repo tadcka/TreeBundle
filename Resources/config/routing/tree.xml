@@ -4,11 +4,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="tadcka_tree_index" pattern="/trees">
-        <default key="_controller">TadckaTreeBundle:Tree:index</default>
+    <route id="tadcka_tree_root" pattern="/tree/root">
+        <default key="_controller">TadckaTreeBundle:Tree:getRoot</default>
     </route>
 
-    <route id="tadcka_tree_create" pattern="/tree/create">
+    <route id="tadcka_tree_children" pattern="/tree/create">
         <default key="_controller">TadckaTreeBundle:Tree:create</default>
     </route>
 

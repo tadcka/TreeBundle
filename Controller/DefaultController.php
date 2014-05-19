@@ -13,16 +13,13 @@ namespace Tadcka\Bundle\TreeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Tadcka\Bundle\TreeBundle\ModelManager\TreeManagerInterface;
 
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
- * @since 3/24/14 10:15 PM
+ * @since 4/12/14 9:51 PM
  */
-class TreeController extends ContainerAware
+class DefaultController extends ContainerAware
 {
     /**
      * @return EngineInterface
@@ -32,25 +29,8 @@ class TreeController extends ContainerAware
         return $this->container->get('templating');
     }
 
-    /**
-     * @return TreeManagerInterface
-     */
-    private function getManager()
+    public function indexAction()
     {
-        return $this->container->get('tadcka_tree.manager.tree');
-    }
-
-    public function getRootAction(Request $request)
-    {
-        $data = array(
-
-        );
-
-        return new JsonResponse($data);
-    }
-
-    public function getChildren(Request $request, $nodeId)
-    {
-
+        return $this->getTemplating()->renderResponse('TadckaTreeBundle:Tree:index.html.twig');
     }
 }
