@@ -54,6 +54,14 @@ class NodeManager extends BaseNodeManager
     /**
      * {@inheritdoc}
      */
+    public function findNode($nodeId)
+    {
+        return $this->repository->find($nodeId);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findRoot($rootId)
     {
         return $this->repository->findOneBy(array('root' => $rootId));

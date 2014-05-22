@@ -35,6 +35,8 @@ class TadckaTreeExtension extends Extension
         $loader->load('services.xml');
         $loader->load('form/node.xml');
 
+        $loader->load('frontend/services.xml');
+
         if (!in_array(strtolower($config['db_driver']), array('mongodb', 'orm'))) {
             throw new \InvalidArgumentException(sprintf('Invalid db driver "%s".', $config['db_driver']));
         }

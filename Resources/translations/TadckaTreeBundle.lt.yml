@@ -9,6 +9,7 @@ numeric: 'Nr.'
 title: Pavadinimas
 unique_key: Unikalus raktas
 actions: Veiksmai
+not_found_title: Pavadinimas nerastas
 
 form:
   node_translation:

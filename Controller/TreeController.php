@@ -49,6 +49,16 @@ class TreeController extends ContainerAware
         );
     }
 
+    public function editAction($root)
+    {
+        return $this->getTemplating()->renderResponse(
+            'TadckaTreeBundle:Tree/Edit:edit.html.twig',
+            array(
+                'root' => $root,
+            )
+        );
+    }
+
     public function listAction($page = 1)
     {
         $pagination = new Pagination($this->getTreeManager()->count(), $page, 20);

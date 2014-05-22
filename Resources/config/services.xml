@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="tadcka_tree.provider.tree.class">Tadcka\Bundle\TreeBundle\Provider\TreeProvider</parameter>
+        <parameter key="tadcka_tree.helper.json_response.class">Tadcka\Bundle\TreeBundle\Helper\JsonResponseHelper</parameter>
     </parameters>
 
     <services>
@@ -13,6 +14,11 @@
         <service id="tadcka_tree.provider.tree" class="%tadcka_tree.provider.tree.class%">
             <argument type="service" id="tadcka_tree.manager.tree" />
             <argument type="service" id="tadcka_tree.manager.node" />
+        </service>
+
+        <!--Json response helper-->
+        <service id="tadcka_tree.helper.json_response" class="%tadcka_tree.helper.json_response.class%">
+            <argument type="service" id="serializer" />
         </service>
     </services>
 </container>

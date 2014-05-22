@@ -1,0 +1,13 @@
+{% extends 'TadckaTreeBundle::layout.html.twig' %}
+
+{% trans_default_domain 'TadckaTreeBundle' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-4">
+                <div id="tadcka_jstree" data-root_id="{{ root }}"><div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

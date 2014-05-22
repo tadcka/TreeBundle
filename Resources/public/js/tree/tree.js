@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#jstree_demo').jstree({
+    $('#tadcka_jstree').jstree({
         "core" : {
             "animation" : 0,
             "check_callback" : true,
@@ -7,7 +7,7 @@ $(document).ready(function() {
             'data' : {
                 'url' : function (node) {
                     return node.id === '#' ?
-                        Routing.generate('tadcka_tree_node_root', {rootId: 3}) : Routing.generate('tadcka_tree_node', {id: 1});
+                        Routing.generate('tadcka_tree_node_root', {rootId: $('#tadcka_jstree').data('root_id')}) : Routing.generate('tadcka_tree_node', {id: node.id });
                 }
 //                ,
 //                'data' : function (node) {

@@ -6,7 +6,7 @@
     <td>{{ translation is not empty and translation.title is not empty ? translation.title : 'not_found_title'|trans }}</td>
     <td>{{ slug }}</td>
     <td class="col-sm-2">
-        <a class="btn btn-primary">{{ 'button.edit'|trans }}</a>
-        <a class="btn btn-danger">{{ 'button.delete'|trans }}</a>
+        <a href="{{ url('tadcka_tree_edit', {root: tree.root}) }}" class="btn btn-primary">{{ 'button.edit'|trans }}</a>
+        <a href="javascript:;" class="btn btn-danger">{{ 'button.delete'|trans }}</a>
     </td>
 </tr>

@@ -11,13 +11,11 @@
 
 namespace Tadcka\Bundle\TreeBundle\Controller;
 
-use JMS\Serializer\SerializerInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Tadcka\Bundle\TreeBundle\Frontend\Model\Node;
-use Tadcka\Bundle\TreeBundle\Frontend\Model\Root;
+use Tadcka\Bundle\TreeBundle\Frontend\Helper\FrontendHelper;
+use Tadcka\Bundle\TreeBundle\Helper\JsonResponseHelper;
 use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
 
 /**
@@ -27,6 +25,34 @@ use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
  */
 class NodeController extends ContainerAware
 {
+    public function getRootAction(Request $request, $rootId)
+    {
+        $root = $this->getManager()->findRoot($rootId);
+        if (null !== $root) {
+            $response = $this->getJsonResponseHelper()->getResponse(
+                array($this->getFrontendHelper()->getRoot($root, $request->getLocale()))
+            );
+
+            return $response;
+        }
+
+        return new Response();
+    }
+
+    public function getNodeAction(Request $request, $id)
+    {
+        $node = $this->getManager()->findNode($id);
+        if (null !== $node) {
+            $response = $this->getJsonResponseHelper()->getResponse(
+                $this->getFrontendHelper()->getNodeChildren($node, $request->getLocale())
+            );
+
+            return $response;
+        }
+
+        return new Response();
+    }
+
     /**
      * @return NodeManagerInterface
      */
@@ -36,40 +62,18 @@ class NodeController extends ContainerAware
     }
 
     /**
-     * @return SerializerInterface
+     * @return JsonResponseHelper
      */
-    private function getSerializer()
+    private function getJsonResponseHelper()
     {
-        return $this->container->get('serializer');
+        return $this->container->get('tadcka_tree.helper.json_response');
     }
 
-    public function getRootAction(Request $request, $rootId)
+    /**
+     * @return FrontendHelper
+     */
+    private function getFrontendHelper()
     {
-        $root = $this->getManager()->findRoot($rootId);
-        if (null !== $root) {
-            $translation = $root->getTranslation($request->getLocale());
-            if (null !== $translation) {
-                $root = new Root($translation->getTitle(), count($root->getChildren()) ? true : false);
-
-                $response = new Response($this->getSerializer()->serialize(array($root), 'json'));
-                $response->headers->set('Content-Type', 'application/json');
-
-                return $response;
-            }
-        }
-
-        return new Response();
-    }
-
-    public function getNodeAction(Request $request, $id)
-    {
-        $node = new Node(2, '#', 'Naujas');
-        $node2 = new Node(21, '#', 'Naujas11');
-
-        $response = new Response($this->getSerializer()->serialize(array($node, $node2), 'json'));
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
-//        return new Response();
+        return $this->container->get('tadcka_tree.frontend.helper.frontend');
     }
 }

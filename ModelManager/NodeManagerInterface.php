@@ -21,6 +21,15 @@ use Tadcka\Bundle\TreeBundle\Model\NodeInterface;
 interface NodeManagerInterface
 {
     /**
+     * Find node by id.
+     *
+     * @param int $nodeId
+     *
+     * @return NodeInterface|null
+     */
+    public function findNode($nodeId);
+
+    /**
      * Find root.
      *
      * @param int $rootId
