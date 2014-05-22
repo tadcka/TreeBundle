@@ -1,0 +1,12 @@
+{% trans_default_domain 'TadckaTreeBundle' %}
+{% set translation = tree.translation(app.request.locale) %}
+
+<tr>
+    <td class="col-sm-1">{{ numeric }}</td>
+    <td>{{ translation is not empty and translation.title is not empty ? translation.title : 'not_found_title'|trans }}</td>
+    <td>{{ slug }}</td>
+    <td class="col-sm-2">
+        <a class="btn btn-primary">{{ 'button.edit'|trans }}</a>
+        <a class="btn btn-danger">{{ 'button.delete'|trans }}</a>
+    </td>
+</tr>

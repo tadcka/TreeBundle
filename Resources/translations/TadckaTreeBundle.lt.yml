@@ -1,0 +1,16 @@
+button:
+  create: Sukurti naują
+  edit: Redaguoti
+  delete: Pašalinti
+  save: Išsaugoti
+  cancel: Atšaukti
+
+numeric: 'Nr.'
+title: Pavadinimas
+unique_key: Unikalus raktas
+actions: Veiksmai
+
+form:
+  node_translation:
+    title: Pavadinimas
+    description: Aprašymas

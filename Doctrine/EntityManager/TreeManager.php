@@ -62,7 +62,7 @@ class TreeManager extends BaseTreeManager
     /**
      * {@inheritdoc}
      */
-    public function findManyRootIds($offset = null, $limit = null)
+    public function findManyTrees($offset = null, $limit = null)
     {
         $qb = $this->repository->createQueryBuilder('t');
 
@@ -74,7 +74,7 @@ class TreeManager extends BaseTreeManager
             $qb->getMaxResults($limit);
         }
 
-        $qb->select('t.rootId');
+        $qb->select('t');
 
         return $qb->getQuery()->getResult();
     }

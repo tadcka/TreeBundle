@@ -1,0 +1,16 @@
+button:
+  create: Create new
+  edit: Edit
+  delete: Delete
+  save: Save
+  cancel: Cancel
+
+numeric: 'Nr.'
+title: Title
+unique_key: Unique key
+actions: Actions
+
+form:
+  node_translation:
+    title: Title
+    description: Description

@@ -13,11 +13,14 @@ namespace Tadcka\Bundle\TreeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Tadcka\Bundle\TreeBundle\Form\Factory\NodeFormFactory;
 use Tadcka\Bundle\TreeBundle\Form\Handler\NodeFormHandler;
 use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
+use Tadcka\Bundle\TreeBundle\ModelManager\TreeManagerInterface;
 use Tadcka\Bundle\TreeBundle\Provider\TreeProvider;
+use Tadcka\Component\Paginator\Pagination;
 
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
@@ -26,6 +29,41 @@ use Tadcka\Bundle\TreeBundle\Provider\TreeProvider;
  */
 class TreeController extends ContainerAware
 {
+    public function createAction(Request $request)
+    {
+        $form = $this->getFormFactory()->create($this->getNodeManager()->create());
+
+        $handler = $this->getFormHandler();
+
+        if (true === $handler->process($request, $form)) {
+            $this->getNodeManager()->save();
+
+            $handler->onSuccess($form->getData());
+
+            return new RedirectResponse($this->container->get('router')->generate('tadcka_list_of_tree'));
+        }
+
+        return $this->getTemplating()->renderResponse(
+            'TadckaTreeBundle:Tree/Create:create.html.twig',
+            array('form' => $form->createView())
+        );
+    }
+
+    public function listAction($page = 1)
+    {
+        $pagination = new Pagination($this->getTreeManager()->count(), $page, 20);
+
+        $trees = $this->getTreeProvider()->getListOfTrees($pagination->getOffset(), $pagination->getItemsInPage());
+
+        return $this->getTemplating()->renderResponse(
+            'TadckaTreeBundle:Tree/List:list.html.twig',
+            array(
+                'trees' => $trees,
+                'pagination' => $this->container->get('tadcka_paginator.manager')->getPaginatorHtml($pagination),
+            )
+        );
+    }
+
     /**
      * @return EngineInterface
      */
@@ -40,6 +78,14 @@ class TreeController extends ContainerAware
     private function getNodeManager()
     {
         return $this->container->get('tadcka_tree.manager.node');
+    }
+
+    /**
+     * @return TreeManagerInterface
+     */
+    private function getTreeManager()
+    {
+        return $this->container->get('tadcka_tree.manager.tree');
     }
 
     /**
@@ -64,28 +110,5 @@ class TreeController extends ContainerAware
     private function getTreeProvider()
     {
         return $this->container->get('tadcka_tree.provider.tree');
-    }
-
-    public function createAction(Request $request)
-    {
-        $form = $this->getFormFactory()->create($this->getNodeManager()->create());
-
-        $handler = $this->getFormHandler();
-
-        if (true === $handler->process($request, $form)) {
-            $this->getNodeManager()->save();
-
-            $handler->onSuccess($form->getData());
-        }
-
-        return $this->getTemplating()->renderResponse(
-            'TadckaTreeBundle:Tree:create.html.twig',
-            array('form' => $form->createView())
-        );
-    }
-
-    public function listAction()
-    {
-        $this->getTreeProvider()->getListOfTrees();
     }
 }

@@ -1,0 +1,23 @@
+{% trans_default_domain 'TadckaTreeBundle' %}
+{% set numeric = 1 %}
+
+{{ pagination|raw }}
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>{{ 'numeric'|trans }}</th>
+        <th>{{ 'title'|trans }}</th>
+        <th>{{ 'unique_key'|trans }}</th>
+        <th>{{ 'actions'|trans }}</th>
+    </tr>
+    </thead>
+    {% for slug, tree in trees %}
+        <tbody>
+            {% include 'TadckaTreeBundle:Tree/List:item.html.twig' with {tree: tree, numeric: numeric, slug: slug} %}
+            {% set numeric = numeric + 1 %}
+        </tbody>
+    {% endfor %}
+</table>
+
+{{ pagination|raw }}

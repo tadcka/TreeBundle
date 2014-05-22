@@ -68,7 +68,7 @@ class NodeManager extends BaseNodeManager
 
         $qb->innerJoin('n.translations', 'trans');
 
-        $qb->where($qb->expr()->in('n.rootId', ':root_ids'))
+        $qb->where($qb->expr()->in('n.root', ':root_ids'))
             ->setParameter('root_ids', $rootIds);
 
         $qb->select('n, trans');

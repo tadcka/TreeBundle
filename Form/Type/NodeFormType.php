@@ -39,7 +39,7 @@ class NodeFormType extends AbstractType
             )
         );
 
-        $builder->add('submit', 'submit', array('label' => 'form.button.save'));
+        $builder->add('submit', 'submit', array('label' => 'button.save'));
     }
 
     /**
