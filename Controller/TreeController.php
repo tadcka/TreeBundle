@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Tadcka\Bundle\TreeBundle\Form\Factory\NodeFormFactory;
 use Tadcka\Bundle\TreeBundle\Form\Handler\NodeFormHandler;
 use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
+use Tadcka\Bundle\TreeBundle\Provider\TreeProvider;
 
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
@@ -57,6 +58,14 @@ class TreeController extends ContainerAware
         return $this->container->get('tadcka_tree.form_handler.node');
     }
 
+    /**
+     * @return TreeProvider
+     */
+    private function getTreeProvider()
+    {
+        return $this->container->get('tadcka_tree.provider.tree');
+    }
+
     public function createAction(Request $request)
     {
         $form = $this->getFormFactory()->create($this->getNodeManager()->create());
@@ -73,5 +82,10 @@ class TreeController extends ContainerAware
             'TadckaTreeBundle:Tree:create.html.twig',
             array('form' => $form->createView())
         );
+    }
+
+    public function listAction()
+    {
+        $this->getTreeProvider()->getListOfTrees();
     }
 }

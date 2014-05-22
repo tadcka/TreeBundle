@@ -30,6 +30,15 @@ interface NodeManagerInterface
     public function findRoot($rootId);
 
     /**
+     * Find roots.
+     *
+     * @param array $rootIds
+     *
+     * @return array|NodeInterface[]
+     */
+    public function findRoots(array $rootIds);
+
+    /**
      * Create node object.
      *
      * @return NodeInterface

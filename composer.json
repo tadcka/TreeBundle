@@ -20,7 +20,10 @@
 
         "stof/doctrine-extensions-bundle": "~1.1",
         "friendsofsymfony/jsrouting-bundle": "~1.5",
-        "jms/serializer-bundle": "~0.13"
+        "jms/serializer-bundle": "~0.13",
+
+        "tadcka/paginator-bundle": "~0.1",
+        "nercury/translation-editor-bundle": "0.1.x-dev"
     },
     "autoload": {
         "psr-4": {

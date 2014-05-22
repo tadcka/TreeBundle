@@ -30,14 +30,14 @@ interface TreeManagerInterface
     public function findTreeByRootId($rootId);
 
     /**
-     * Find many trees.
+     * Find many root ids.
      *
      * @param null|int $offset
      * @param null|int $limit
      *
-     * @return array|TreeInterface[]
+     * @return array
      */
-    public function findManyTrees($offset = null, $limit = null);
+    public function findManyRootIds($offset = null, $limit = null);
 
     /**
      * Get all tree count.

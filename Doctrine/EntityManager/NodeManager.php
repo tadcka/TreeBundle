@@ -62,6 +62,23 @@ class NodeManager extends BaseNodeManager
     /**
      * {@inheritdoc}
      */
+    public function findRoots(array $rootIds)
+    {
+        $qb = $this->repository->createQueryBuilder('n');
+
+        $qb->innerJoin('n.translations', 'trans');
+
+        $qb->where($qb->expr()->in('n.rootId', ':root_ids'))
+            ->setParameter('root_ids', $rootIds);
+
+        $qb->select('n, trans');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function add(NodeInterface $node, $save = false)
     {
         $this->em->persist($node);
