@@ -23,6 +23,7 @@
         "jms/serializer-bundle": "~0.13",
 
         "tadcka/paginator-bundle": "~0.1",
+        "tadcka/jstree-bundle": "dev-master",
         "nercury/translation-editor-bundle": "0.1.x-dev"
     },
     "autoload": {

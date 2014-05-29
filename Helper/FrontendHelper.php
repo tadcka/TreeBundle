@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tadcka\Bundle\TreeBundle\Frontend\Helper;
+namespace Tadcka\Bundle\TreeBundle\Helper;
 
 use Symfony\Component\Translation\TranslatorInterface;
 use Tadcka\JsTreeBundle\Model\Node;

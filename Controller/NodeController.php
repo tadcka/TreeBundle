@@ -14,7 +14,7 @@ namespace Tadcka\Bundle\TreeBundle\Controller;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Tadcka\Bundle\TreeBundle\Frontend\Helper\FrontendHelper;
+use Tadcka\Bundle\TreeBundle\Helper\FrontendHelper;
 use Tadcka\Bundle\TreeBundle\Helper\JsonResponseHelper;
 use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
 
