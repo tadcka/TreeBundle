@@ -12,7 +12,7 @@
 namespace Tadcka\Bundle\TreeBundle\Frontend\Helper;
 
 use Symfony\Component\Translation\TranslatorInterface;
-use Tadcka\Bundle\TreeBundle\Frontend\Model\Node;
+use Tadcka\JsTreeBundle\Model\Node;
 use Tadcka\Bundle\TreeBundle\Model\NodeInterface;
 
 /**
