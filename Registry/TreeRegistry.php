@@ -32,6 +32,16 @@ class TreeRegistry implements TreeRegistryInterface
     }
 
     /**
+     * Register tree config.
+     *
+     * @param TreeLoaderInterface $loader
+     */
+    public function register(TreeLoaderInterface $loader)
+    {
+        $loader->register($this);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function add(TreeConfig $config)
