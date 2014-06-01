@@ -5,6 +5,7 @@ namespace Tadcka\Bundle\TreeBundle;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Tadcka\Bundle\TreeBundle\DependencyInjection\Compiler\TreeRegistryPass;
 
 class TadckaTreeBundle extends Bundle
 {
@@ -14,6 +15,8 @@ class TadckaTreeBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
+        $container->addCompilerPass(new TreeRegistryPass());
 
         $this->addRegisterMappingsPass($container);
     }
