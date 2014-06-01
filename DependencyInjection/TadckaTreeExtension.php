@@ -50,5 +50,6 @@ class TadckaTreeExtension extends Extension
 
         $container->setAlias('tadcka_tree.manager.tree', $config['tree_manager']);
         $container->setAlias('tadcka_tree.manager.node', $config['node_manager']);
+        $container->setAlias('tadcka_tree.manager.node_translation', $config['node_translation_manager']);
     }
 }

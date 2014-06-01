@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('db_driver')->cannotBeOverwritten()->isRequired()->end()
                 ->scalarNode('tree_manager')->defaultValue('tadcka_tree.manager.tree.default')->cannotBeEmpty()->end()
                 ->scalarNode('node_manager')->defaultValue('tadcka_tree.manager.node.default')->cannotBeEmpty()->end()
+                ->scalarNode('node_translation_manager')->defaultValue('tadcka_tree.manager.node_translation.default')->cannotBeEmpty()->end()
                 ->arrayNode('class')->isRequired()
                     ->children()
                         ->arrayNode('model')->isRequired()

@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="tadcka_tree.manager.tree.default.class">Tadcka\Bundle\TreeBundle\Doctrine\EntityManager\TreeManager</parameter>
         <parameter key="tadcka_tree.manager.node.default.class">Tadcka\Bundle\TreeBundle\Doctrine\EntityManager\NodeManager</parameter>
+        <parameter key="tadcka_tree.manager.node_translation.default.class">Tadcka\Bundle\TreeBundle\Doctrine\EntityManager\NodeTranslationManager</parameter>
     </parameters>
 
     <services>
@@ -22,6 +23,13 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument>%tadcka_tree.model.node.class%</argument>
         </service>
+
+        <!--Node translation manager-->
+        <service id="tadcka_tree.manager.node_translation.default" class="%tadcka_tree.manager.node_translation.default.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>%tadcka_tree.model.node_translation.class%</argument>
+        </service>
+
 
     </services>
 

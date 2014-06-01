@@ -58,4 +58,5 @@ class TreeRegistry implements TreeRegistryInterface
     {
         return $this->configs;
     }
+
 }

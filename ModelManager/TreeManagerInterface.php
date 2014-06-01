@@ -30,6 +30,24 @@ interface TreeManagerInterface
     public function findTreeByRootId($rootId);
 
     /**
+     * Find tree by slug.
+     *
+     * @param string $slug
+     *
+     * @return null|TreeInterface
+     */
+    public function findTreeBySlug($slug);
+
+    /**
+     * Find many tree by slugs.
+     *
+     * @param array $slugs
+     *
+     * @return array|TreeInterface[]
+     */
+    public function findManyTreeBySlugs(array $slugs);
+
+    /**
      * Find many trees.
      *
      * @param null|int $offset

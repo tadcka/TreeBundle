@@ -8,6 +8,8 @@
         <parameter key="tadcka_tree.provider.tree.class">Tadcka\Bundle\TreeBundle\Provider\TreeProvider</parameter>
         <parameter key="tadcka_tree.helper.json_response.class">Tadcka\Bundle\TreeBundle\Helper\JsonResponseHelper</parameter>
         <parameter key="tadcka_tree.frontend.helper.frontend.class">Tadcka\Bundle\TreeBundle\Helper\FrontendHelper</parameter>
+        <parameter key="tadcka_tree.class">Tadcka\Bundle\TreeBundle\Services\TreeService</parameter>
+        <parameter key="tadcka_tree.general_manager.node.class">Tadcka\Bundle\TreeBundle\Manager\GeneralNodeManager</parameter>
     </parameters>
 
     <services>
@@ -29,7 +31,15 @@
 
         <!--Tree service-->
         <service id="tadcka_tree" class="%tadcka_tree.class%">
-            <argument type="service" id="translator" />
+            <argument type="service" id="tadcka_tree.registry.tree" />
+            <argument type="service" id="tadcka_tree.manager.tree" />
+            <argument type="service" id="tadcka_tree.general_manager.node" />
+        </service>
+
+        <!--General node manager-->
+        <service id="tadcka_tree.general_manager.node" class="%tadcka_tree.general_manager.node.class%">
+            <argument type="service" id="tadcka_tree.manager.node" />
+            <argument type="service" id="tadcka_tree.manager.node_translation" />
         </service>
     </services>
 </container>

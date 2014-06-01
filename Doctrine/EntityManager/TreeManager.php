@@ -62,6 +62,22 @@ class TreeManager extends BaseTreeManager
     /**
      * {@inheritdoc}
      */
+    public function findTreeBySlug($slug)
+    {
+        return $this->repository->findOneBy(array('slug' => $slug));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findManyTreeBySlugs(array $slugs)
+    {
+        return $this->repository->findBy(array('slug' => $slugs));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findManyTrees($offset = null, $limit = null)
     {
         $qb = $this->repository->createQueryBuilder('t');
