@@ -26,5 +26,10 @@
         <service id="tadcka_tree.frontend.helper.frontend" class="%tadcka_tree.frontend.helper.frontend.class%">
             <argument type="service" id="translator" />
         </service>
+
+        <!--Tree service-->
+        <service id="tadcka_tree" class="%tadcka_tree.class%">
+            <argument type="service" id="translator" />
+        </service>
     </services>
 </container>
