@@ -14,6 +14,7 @@ namespace Tadcka\Bundle\TreeBundle\Controller;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tadcka\Bundle\TreeBundle\Form\Type\NodeFormType;
 use Tadcka\Bundle\TreeBundle\Helper\FrontendHelper;
 use Tadcka\Bundle\TreeBundle\Helper\JsonResponseHelper;
 use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
@@ -25,6 +26,32 @@ use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
  */
 class NodeController extends ContainerAware
 {
+    public function createAction(Request $request, $id)
+    {
+        $node = $this->getManager()->findNode($id);
+        if (null !== $node) {
+            $form = $this->container->get('form.factory')->create(
+                new NodeFormType(),
+                null,
+                array(
+                    'data_class' => $this->container->getParameter('tadcka_tree.model.node.class'),
+                    'translation_class' => $this->container->getParameter('tadcka_tree.model.node_translation.class'),
+                    'action' => $this->container->get('router')->getContext()->getPathInfo(),
+                )
+            );
+
+            return $this->container->get('templating')->renderResponse(
+                'TadckaTreeBundle:Node:create.html.twig',
+                array(
+                    'form' => $form->createView(),
+                )
+            );
+        }
+
+        return new Response();
+    }
+
+
     public function getRootAction(Request $request, $rootId)
     {
         $root = $this->getManager()->findRoot($rootId);

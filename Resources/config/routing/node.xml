@@ -15,4 +15,9 @@
         <option key="expose">true</option>
     </route>
 
+    <route id="tadcka_tree_create_node" pattern="tree/create-node/{id}">
+        <default key="_controller">TadckaTreeBundle:Node:create</default>
+        <option key="expose">true</option>
+    </route>
+
 </routes>

@@ -15,27 +15,45 @@ $(document).ready(function() {
 //                }
             }
         },
-//        "types" : {
-//            "#" : {
-//                "max_children" : 1,
-//                "max_depth" : 4,
-//                "valid_children" : ["root"]
-//            },
-//            "root" : {
-//                "icon" : "/static/3.0.0-beta10/assets/images/tree_icon.png",
-//                "valid_children" : ["default"]
-//            },
-//            "default" : {
-//                "valid_children" : ["default","file"]
-//            },
-//            "file" : {
-//                "icon" : "glyphicon glyphicon-file",
-//                "valid_children" : []
-//            }
-//        },
         "plugins" : [
             "contextmenu", "dnd", "search",
             "state", "types", "wholerow"
-        ]
+        ],
+        "contextmenu": {
+            "items": function ($node) {
+
+                return {
+                    "create": {
+                        "label": "Create",
+                        "action": function (obj) {
+                            $.ajax({
+                                url: Routing.generate('tadcka_tree_create_node', {id: $node.id}),
+                                type: 'GET',
+                                success: function ($response) {
+                                    $('.tadcka_tree_edit_content').html($response);
+                                }
+                            });
+                        }
+                    },
+                    "rename": {
+                        "label": "Rename",
+                        "action": function (obj) {
+                            this.rename(obj);
+                        }
+                    },
+                    "delete": {
+                        "label": "Delete",
+                        "action": function (obj) {
+                            console.log('esu');
+                            this.remove(obj);
+                        }
+                    }
+                };
+            }
+        }
+    })
+    .bind("create.jstree", function (e, data) {
+            console.log('Esassadasd');
+
     });
 });
