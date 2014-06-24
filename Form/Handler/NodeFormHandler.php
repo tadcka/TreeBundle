@@ -75,13 +75,15 @@ class NodeFormHandler
      */
     public function onSuccess(NodeInterface $node)
     {
-        $tree = $this->treeManager->findTreeByRootId($node->getRoot());
-        if (null === $tree) {
-            $tree = $this->treeManager->create();
-            $tree->setRootId($node->getRoot());
-            $tree->setSlug($tree->getCreatedAt()->getTimestamp());
-        }
+        if (null === $node->getParent()) {
+            $tree = $this->treeManager->findTreeByRootId($node->getRoot());
+            if (null === $tree) {
+                $tree = $this->treeManager->create();
+                $tree->setRootId($node->getRoot());
+                $tree->setSlug($tree->getCreatedAt()->getTimestamp());
+            }
 
-        $this->treeManager->add($tree, true);
+            $this->treeManager->add($tree, true);
+        }
     }
 }

@@ -20,4 +20,14 @@
         <option key="expose">true</option>
     </route>
 
+    <route id="tadcka_tree_edit_node" pattern="tree/edit-node/{id}">
+        <default key="_controller">TadckaTreeBundle:Node:edit</default>
+        <option key="expose">true</option>
+    </route>
+
+    <route id="tadcka_tree_delete_node" pattern="tree/delete-node/{id}">
+        <default key="_controller">TadckaTreeBundle:Node:delete</default>
+        <option key="expose">true</option>
+    </route>
+
 </routes>

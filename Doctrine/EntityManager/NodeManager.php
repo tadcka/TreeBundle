@@ -100,10 +100,23 @@ class NodeManager extends BaseNodeManager
      */
     public function delete(NodeInterface $node, $save = false)
     {
-        $this->em->persist($node);
-        if (true === $save) {
-            $this->save();
+        $this->recursiveDelete($node);
+//        if (true === $save) {
+//            $this->save();
+//        }
+    }
+
+    /**
+     * Recursive delete node children.
+     *
+     * @param NodeInterface $node
+     */
+    private function recursiveDelete(NodeInterface $node)
+    {
+        foreach ($node->getChildren() as $child) {
+            $this->recursiveDelete($child);
         }
+        $this->repository->removeFromTree($node);
     }
 
     /**

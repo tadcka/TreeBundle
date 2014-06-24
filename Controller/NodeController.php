@@ -14,6 +14,8 @@ namespace Tadcka\Bundle\TreeBundle\Controller;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tadcka\Bundle\TreeBundle\Form\Factory\NodeFormFactory;
+use Tadcka\Bundle\TreeBundle\Form\Handler\NodeFormHandler;
 use Tadcka\Bundle\TreeBundle\Form\Type\NodeFormType;
 use Tadcka\Bundle\TreeBundle\Helper\FrontendHelper;
 use Tadcka\Bundle\TreeBundle\Helper\JsonResponseHelper;
@@ -28,27 +30,75 @@ class NodeController extends ContainerAware
 {
     public function createAction(Request $request, $id)
     {
-        $node = $this->getManager()->findNode($id);
-        if (null !== $node) {
-            $form = $this->container->get('form.factory')->create(
-                new NodeFormType(),
-                null,
-                array(
-                    'data_class' => $this->container->getParameter('tadcka_tree.model.node.class'),
-                    'translation_class' => $this->container->getParameter('tadcka_tree.model.node_translation.class'),
-                    'action' => $this->container->get('router')->getContext()->getPathInfo(),
-                )
-            );
+        $parent = $this->getManager()->findNode($id);
+        if (null !== $parent) {
+            $node = $this->getManager()->create();
+            $node->setParent($parent);
+            $form = $this->getFormFactory()->create($node);
+
+            if ($this->getFormHandler()->process($request, $form)) {
+                $this->getManager()->save();
+
+                return new Response();
+            }
 
             return $this->container->get('templating')->renderResponse(
-                'TadckaTreeBundle:Node:create.html.twig',
+                'TadckaTreeBundle:Node:form.html.twig',
                 array(
                     'form' => $form->createView(),
                 )
             );
         }
 
-        return new Response();
+        return new Response('Not found tree node!');
+    }
+
+    public function editAction(Request $request, $id)
+    {
+        $node = $this->getManager()->findNode($id);
+        if (null !== $node) {
+            $form = $this->getFormFactory()->create($node);
+
+            if ($this->getFormHandler()->process($request, $form)) {
+                $this->getManager()->save();
+
+                return new Response();
+            }
+
+            return $this->container->get('templating')->renderResponse(
+                'TadckaTreeBundle:Node:form.html.twig',
+                array(
+                    'form' => $form->createView(),
+                )
+            );
+        }
+
+        return new Response('Not found tree node!');
+    }
+
+    public function deleteAction(Request $request, $id)
+    {
+        $node = $this->getManager()->findNode($id);
+        if ((null !== $node)) {
+            if (null !== $node->getParent()) {
+                if ($request->isMethod('DELETE')) {
+                    $this->getManager()->delete($node);
+
+                    return new Response();
+                }
+
+                return $this->container->get('templating')->renderResponse(
+                    'TadckaTreeBundle:Node:delete.html.twig',
+                    array(
+                        'node_id' => $id
+                    )
+                );
+            } else {
+                return new Response("Don't delete the tree root!");
+            }
+        }
+
+        return new Response('Not found tree node!');
     }
 
 
@@ -102,5 +152,21 @@ class NodeController extends ContainerAware
     private function getFrontendHelper()
     {
         return $this->container->get('tadcka_tree.frontend.helper.frontend');
+    }
+
+    /**
+     * @return NodeFormFactory
+     */
+    private function getFormFactory()
+    {
+        return $this->container->get('tadcka_tree.form_factory.node');
+    }
+
+    /**
+     * @return NodeFormHandler
+     */
+    private function getFormHandler()
+    {
+        return $this->container->get('tadcka_tree.form_handler.node');
     }
 }

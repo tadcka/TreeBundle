@@ -52,6 +52,7 @@ class NodeFormType extends AbstractType
         $resolver->setDefaults(
             array(
                 'translation_domain' => 'TadckaTreeBundle',
+                'attr' => array('class' => 'tadcka_node'),
             )
         );
     }

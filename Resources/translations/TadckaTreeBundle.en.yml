@@ -10,6 +10,9 @@ title: Title
 unique_key: Unique key
 actions: Actions
 not_found_title: Not found title
+delete_confirm: Are you sure you want to delete a tree node?
+yes: Yes
+no: No
 
 form:
   node_translation:
