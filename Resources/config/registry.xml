@@ -6,11 +6,16 @@
 
     <parameters>
         <parameter key="tadcka_tree.registry.tree.class">Tadcka\Bundle\TreeBundle\Registry\TreeRegistry</parameter>
+        <parameter key="tadcka_tree.registry.node_type.class">Tadcka\Bundle\TreeBundle\NodeType\Registry\NodeTypeRegistry</parameter>
     </parameters>
 
     <services>
+
         <!--Tree registry-->
-        <service id="tadcka_tree.registry.tree" class="%tadcka_tree.registry.tree.class%">
-        </service>
+        <service id="tadcka_tree.registry.tree" class="%tadcka_tree.registry.tree.class%" />
+
+        <!--Tree node type registry-->
+        <service id="tadcka_tree.registry.node_type" class="%tadcka_tree.registry.node_type.class%" />
+
     </services>
 </container>

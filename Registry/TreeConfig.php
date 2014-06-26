@@ -33,15 +33,22 @@ class TreeConfig
     private $contextMenuFactory;
 
     /**
+     * @var null|string
+     */
+    private $iconPath;
+
+    /**
      * Constructor.
      *
      * @param string $name
      * @param ContextMenuFactoryInterface $contextMenuFactory
+     * @param null|string $iconPath
      */
-    public function __construct($name, ContextMenuFactoryInterface $contextMenuFactory)
+    public function __construct($name, ContextMenuFactoryInterface $contextMenuFactory, $iconPath = null)
     {
         $this->name = $name;
         $this->contextMenuFactory = $contextMenuFactory;
+        $this->iconPath = $iconPath;
     }
 
     /**
@@ -62,5 +69,15 @@ class TreeConfig
     public function getContextMenuFactory()
     {
         return $this->contextMenuFactory;
+    }
+
+    /**
+     * Get icon path.
+     *
+     * @return null|string
+     */
+    public function getIconPath()
+    {
+        return $this->iconPath;
     }
 }

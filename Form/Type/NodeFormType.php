@@ -13,7 +13,10 @@ namespace Tadcka\Bundle\TreeBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Tadcka\Bundle\TreeBundle\Validator\Constraints\NodeType;
 
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
@@ -27,6 +30,20 @@ class NodeFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (0 < count($options['node_types'])) {
+            $builder->add(
+                'type',
+                'choice',
+                array(
+                    'choices' => $options['node_types'],
+                    'empty_value' => 'form.select',
+                    'empty_data' => null,
+                    'constraints' => array(new NotBlank()),
+                    'label' => 'form.node.type',
+                )
+            );
+        }
+
         $builder->add(
             'translations',
             'translations',
@@ -47,12 +64,19 @@ class NodeFormType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setOptional(array('translation_class'));
+        $resolver->setOptional(array('translation_class', 'node_types'));
 
         $resolver->setDefaults(
             array(
                 'translation_domain' => 'TadckaTreeBundle',
                 'attr' => array('class' => 'tadcka_node'),
+                'constraints' => function (Options $options) {
+                    if (0 < count($options['node_types'])) {
+                        return array(new NodeType());
+                    }
+
+                    return array();
+                },
             )
         );
     }

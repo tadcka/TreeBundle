@@ -32,6 +32,11 @@ abstract class Node implements NodeInterface
     protected $id;
 
     /**
+     * @var string
+     */
+    protected $type;
+
+    /**
      * @Gedmo\TreeRoot
      *
      * @var int
@@ -89,6 +94,24 @@ abstract class Node implements NodeInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

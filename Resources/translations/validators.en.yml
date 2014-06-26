@@ -1,0 +1,2 @@
+tadcka_tree:
+  node_type_invalid: The specified node type "%node_type%" can not be attributed to his parent.

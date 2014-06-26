@@ -5,14 +5,22 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="tadcka_tree.manager.node_type.class">Tadcka\Bundle\TreeBundle\NodeType\NodeTypeManager</parameter>
         <parameter key="tadcka_tree.provider.tree.class">Tadcka\Bundle\TreeBundle\Provider\TreeProvider</parameter>
         <parameter key="tadcka_tree.helper.json_response.class">Tadcka\Bundle\TreeBundle\Helper\JsonResponseHelper</parameter>
         <parameter key="tadcka_tree.frontend.helper.frontend.class">Tadcka\Bundle\TreeBundle\Helper\FrontendHelper</parameter>
         <parameter key="tadcka_tree.class">Tadcka\Bundle\TreeBundle\Services\TreeService</parameter>
         <parameter key="tadcka_tree.general_manager.node.class">Tadcka\Bundle\TreeBundle\Manager\GeneralNodeManager</parameter>
+        <parameter key="tadcka_tree.validator.node_type.class">Tadcka\Bundle\TreeBundle\Validator\Constraints\NodeTypeValidator</parameter>
     </parameters>
 
     <services>
+
+        <!--Tree node type manager-->
+        <service id="tadcka_tree.manager.node_type" class="%tadcka_tree.manager.node_type.class%">
+            <argument type="service" id="tadcka_tree.registry.node_type" />
+        </service>
+
         <!--Tree provider-->
         <service id="tadcka_tree.provider.tree" class="%tadcka_tree.provider.tree.class%">
             <argument type="service" id="tadcka_tree.manager.tree" />
@@ -26,6 +34,7 @@
 
         <!--Frontend helper-->
         <service id="tadcka_tree.frontend.helper.frontend" class="%tadcka_tree.frontend.helper.frontend.class%">
+            <argument type="service" id="tadcka_tree.manager.node_type" />
             <argument type="service" id="translator" />
         </service>
 
@@ -41,5 +50,12 @@
             <argument type="service" id="tadcka_tree.manager.node" />
             <argument type="service" id="tadcka_tree.manager.node_translation" />
         </service>
+
+        <!--Tree node type validator-->
+        <service id="tadcka_tree.validator.node_type" class="%tadcka_tree.validator.node_type.class%">
+            <tag name="validator.constraint_validator" alias="tadcka_tree.node_type" />
+            <argument type="service" id="tadcka_tree.manager.node_type" />
+        </service>
+
     </services>
 </container>

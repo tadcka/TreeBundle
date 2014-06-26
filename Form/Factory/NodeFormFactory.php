@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Tadcka\Bundle\TreeBundle\Form\Type\NodeFormType;
 use Tadcka\Bundle\TreeBundle\Model\NodeInterface;
+use Tadcka\Bundle\TreeBundle\NodeType\NodeTypeManager;
 
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
@@ -35,6 +36,11 @@ class NodeFormFactory
     private $router;
 
     /**
+     * @var NodeTypeManager
+     */
+    private $nodeTypeManager;
+
+    /**
      * @var string
      */
     private $nodeClass;
@@ -49,17 +55,20 @@ class NodeFormFactory
      *
      * @param FormFactoryInterface $formFactory
      * @param RouterInterface $router
+     * @param NodeTypeManager $nodeTypeManager
      * @param string $nodeClass
      * @param string $translationClass
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         RouterInterface $router,
+        NodeTypeManager $nodeTypeManager,
         $nodeClass,
         $translationClass
     ) {
         $this->formFactory = $formFactory;
         $this->router = $router;
+        $this->nodeTypeManager = $nodeTypeManager;
         $this->nodeClass = $nodeClass;
         $this->translationClass = $translationClass;
     }
@@ -80,7 +89,8 @@ class NodeFormFactory
             array(
                 'action' => $this->router->getContext()->getPathInfo(),
                 'data_class' => $this->nodeClass,
-                'translation_class' => $this->translationClass
+                'translation_class' => $this->translationClass,
+                'node_types' => $this->nodeTypeManager->getNormalizedTypes(),
             )
         );
     }

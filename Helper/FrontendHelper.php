@@ -12,6 +12,7 @@
 namespace Tadcka\Bundle\TreeBundle\Helper;
 
 use Symfony\Component\Translation\TranslatorInterface;
+use Tadcka\Bundle\TreeBundle\NodeType\NodeTypeManager;
 use Tadcka\JsTreeBundle\Model\Node;
 use Tadcka\Bundle\TreeBundle\Model\NodeInterface;
 
@@ -28,12 +29,19 @@ class FrontendHelper
     private $translator;
 
     /**
+     * @var NodeTypeManager
+     */
+    private $nodeTypeManager;
+
+    /**
      * Constructor
      *
+     * @param NodeTypeManager $nodeTypeManager
      * @param TranslatorInterface $translator
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(NodeTypeManager $nodeTypeManager, TranslatorInterface $translator)
     {
+        $this->nodeTypeManager = $nodeTypeManager;
         $this->translator = $translator;
     }
 
@@ -42,12 +50,13 @@ class FrontendHelper
      *
      * @param NodeInterface $node
      * @param string $locale
+     * @param null|string $iconPath
      *
      * @return Node
      */
-    public function getRoot(NodeInterface $node, $locale)
+    public function getRoot(NodeInterface $node, $locale, $iconPath = null)
     {
-        return new Node($node->getId(), $this->getNodeTitle($node, $locale), $this->hasNodeChildren($node));
+        return new Node($node->getId(), $this->getNodeTitle($node, $locale), $this->hasNodeChildren($node), $iconPath);
     }
 
     /**
@@ -65,7 +74,8 @@ class FrontendHelper
             $children[] = new Node(
                 $child->getId(),
                 $this->getNodeTitle($child, $locale),
-                $this->hasNodeChildren($child)
+                $this->hasNodeChildren($child),
+                $this->getIconPath($child)
             );
         }
 
@@ -102,5 +112,22 @@ class FrontendHelper
     private function hasNodeChildren(NodeInterface $node)
     {
         return count($node->getChildren()) ? true : false;
+    }
+
+    /**
+     * Get icon path.
+     *
+     * @param NodeInterface $node
+     *
+     * @return null|string
+     */
+    private function getIconPath(NodeInterface $node)
+    {
+        $iconPath = null;
+        if ($node->getType() && (null !== $config = $this->nodeTypeManager->getConfig($node->getType()))) {
+            $iconPath = $config->getIconPath();
+        }
+
+        return $iconPath;
     }
 }

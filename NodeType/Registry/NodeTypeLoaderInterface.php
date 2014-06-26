@@ -16,12 +16,12 @@ namespace Tadcka\Bundle\TreeBundle\NodeType\Registry;
  *
  * @since 6/24/14 9:11 PM
  */
-interface TypeLoaderInterface
+interface NodeTypeLoaderInterface
 {
     /**
      * Load type config and register it.
      *
-     * @param TypeRegistryInterface $registry
+     * @param NodeTypeRegistryInterface $registry
      */
-    public function register(TypeRegistryInterface $registry);
+    public function register(NodeTypeRegistryInterface $registry);
 }

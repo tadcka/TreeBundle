@@ -20,6 +20,8 @@
             <generator strategy="AUTO" />
         </id>
 
+        <field name="type" column="type" type="string" length="255" nullable="true" />
+
         <field name="root" column="root" type="integer" nullable="true" />
 
         <field name="left" column="lft" type="integer" nullable="false" />

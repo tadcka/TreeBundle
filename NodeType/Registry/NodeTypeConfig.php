@@ -16,7 +16,7 @@ namespace Tadcka\Bundle\TreeBundle\NodeType\Registry;
  *
  * @since 6/24/14 9:00 PM
  */
-class TypeConfig
+class NodeTypeConfig
 {
     /**
      * @var string

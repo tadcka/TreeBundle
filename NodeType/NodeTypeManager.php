@@ -9,9 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Tadcka\Bundle\SitemapBundle\Type;
+namespace Tadcka\Bundle\TreeBundle\NodeType;
 
-use Tadcka\Bundle\SitemapBundle\Type\Registry\TypeRegistry;
+use Tadcka\Bundle\TreeBundle\Model\NodeInterface;
+use Tadcka\Bundle\TreeBundle\NodeType\Registry\NodeTypeConfig;
+use Tadcka\Bundle\TreeBundle\NodeType\Registry\NodeTypeRegistry;
 
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
@@ -21,54 +23,46 @@ use Tadcka\Bundle\SitemapBundle\Type\Registry\TypeRegistry;
 class NodeTypeManager
 {
     /**
-     * @var TypeRegistry
+     * @var NodeTypeRegistry
      */
     private $registry;
 
     /**
      * Constructor.
      *
-     * @param TypeRegistry $registry
+     * @param NodeTypeRegistry $registry
      */
-    public function __construct(TypeRegistry $registry)
+    public function __construct(NodeTypeRegistry $registry)
     {
         $this->registry = $registry;
     }
 
     /**
-     * Validate node and parent types.
+     * Validate node.
      *
-     * @param string $nodeType
-     * @param string $parentType
+     * @param NodeInterface $node
      *
      * @return bool
      */
-    public function isValid($nodeType, $parentType)
+    public function isValid(NodeInterface $node)
     {
-        if (null !== $config = $this->registry->getContainer()->get($nodeType)) {
-            return $this->hasType($parentType, $config->getParentTypes());
+        if ((null !== $config = $this->getConfig($node->getType())) && (null !== $parent = $node->getParent())) {
+            return $this->hasType($parent->getType(), $config->getParentTypes());
         }
 
         return false;
     }
 
     /**
-     * Check or has node type in type list.
+     * Get node type config.
      *
      * @param string $nodeType
-     * @param array $types
      *
-     * @return bool
+     * @return null|NodeTypeConfig
      */
-    private function hasType($nodeType, array $types)
+    public function getConfig($nodeType)
     {
-        foreach ($types as $type) {
-            if ($nodeType === $type) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->registry->getContainer()->get($nodeType);
     }
 
     /**
@@ -85,5 +79,41 @@ class NodeTypeManager
         }
 
         return $types;
+    }
+
+    /**
+     * Check or has node type in type list.
+     *
+     * @param string $nodeType
+     * @param array $types
+     *
+     * @return bool
+     */
+    private function hasType($nodeType, array $types)
+    {
+        if ($this->isEmptyType($nodeType, $types)) {
+            return true;
+        }
+
+        foreach ($types as $type) {
+            if ($nodeType === $type) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check or is empty type.
+     *
+     * @param string $nodeType
+     * @param array $types
+     *
+     * @return bool
+     */
+    private function isEmptyType($nodeType, array $types)
+    {
+        return (null === $nodeType) && (0 === count($types));
     }
 }

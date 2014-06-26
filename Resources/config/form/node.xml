@@ -14,6 +14,7 @@
         <service id="tadcka_tree.form_factory.node" class="%tadcka_tree.form_factory.node.class%">
             <argument type="service" id="form.factory" />
             <argument type="service" id="router" />
+            <argument type="service" id="tadcka_tree.manager.node_type" />
             <argument>%tadcka_tree.model.node.class%</argument>
             <argument>%tadcka_tree.model.node_translation.class%</argument>
         </service>

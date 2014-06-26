@@ -9,10 +9,6 @@ $(document).ready(function () {
                     return node.id === '#' ?
                         Routing.generate('tadcka_tree_node_root', {rootId: $('#tadcka_jstree').data('root_id')}) : Routing.generate('tadcka_tree_node', {id: node.id });
                 }
-//                ,
-//                'data' : function (node) {
-//                    return { 'id' : node.id };
-//                }
             }
         },
         "plugins": [
@@ -98,11 +94,7 @@ $(document).ready(function () {
                 };
             }
         }
-    })
-        .bind("create.jstree", function (e, data) {
-            console.log('Esassadasd');
-
-        });
+    });
 });
 
 function tadckaTreeNodeCreateEdit() {

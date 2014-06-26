@@ -11,13 +11,22 @@
 
 namespace Tadcka\Bundle\TreeBundle\Validator\Constraints;
 
+use Symfony\Component\Validator\Constraint;
+
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
  * @since 6/26/14 10:26 PM
  */
-class NodeType 
+class NodeType extends Constraint
 {
+    public $message = 'tadcka_tree.node_type_invalid';
 
+    /**
+     * {@inheritdoc}
+     */
+    public function validatedBy()
+    {
+        return 'tadcka_tree.node_type';
+    }
 }
- 

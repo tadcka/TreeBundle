@@ -20,6 +20,8 @@ use Tadcka\Bundle\TreeBundle\Form\Type\NodeFormType;
 use Tadcka\Bundle\TreeBundle\Helper\FrontendHelper;
 use Tadcka\Bundle\TreeBundle\Helper\JsonResponseHelper;
 use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
+use Tadcka\Bundle\TreeBundle\ModelManager\TreeManagerInterface;
+use Tadcka\Bundle\TreeBundle\Registry\TreeRegistry;
 
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
@@ -106,8 +108,13 @@ class NodeController extends ContainerAware
     {
         $root = $this->getManager()->findRoot($rootId);
         if (null !== $root) {
+            $tree = $this->getTreeManager()->findTreeByRootId($rootId);
+            $iconPath = null;
+            if ((null !== $tree) && (null !== $config = $this->getTreeRegistry()->getConfigs()->get($tree->getSlug()))) {
+                $iconPath = $config->getIconPath();
+            }
             $response = $this->getJsonResponseHelper()->getResponse(
-                array($this->getFrontendHelper()->getRoot($root, $request->getLocale()))
+                array($this->getFrontendHelper()->getRoot($root, $request->getLocale(), $iconPath))
             );
 
             return $response;
@@ -136,6 +143,14 @@ class NodeController extends ContainerAware
     private function getManager()
     {
         return $this->container->get('tadcka_tree.manager.node');
+    }
+
+    /**
+     * @return TreeManagerInterface
+     */
+    private function getTreeManager()
+    {
+        return $this->container->get('tadcka_tree.manager.tree');
     }
 
     /**
@@ -168,5 +183,15 @@ class NodeController extends ContainerAware
     private function getFormHandler()
     {
         return $this->container->get('tadcka_tree.form_handler.node');
+    }
+
+    /**
+     * Get tree registry.
+     *
+     * @return TreeRegistry
+     */
+    private function getTreeRegistry()
+    {
+        return $this->container->get('tadcka_tree.registry.tree');
     }
 }

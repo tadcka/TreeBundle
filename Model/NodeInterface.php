@@ -26,6 +26,22 @@ interface NodeInterface
     public function getId();
 
     /**
+     * Set type.
+     *
+     * @param string $type
+     *
+     * @return NodeInterface
+     */
+    public function setType($type);
+
+    /**
+     * Get type.
+     *
+     * @return string
+     */
+    public function getType();
+
+    /**
      * Set root.
      *
      * @param int $root
