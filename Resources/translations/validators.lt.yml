@@ -1,2 +1,2 @@
 tadcka_tree:
-  node_type_invalid: Nurodytas šakos tipas "%node_type%" negali būti priskirtas tėvui.
+  node_type_invalid: Nurodytas tipas "%node_type%" negali būti priskirtas šakos tėvui.
