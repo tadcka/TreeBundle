@@ -14,6 +14,8 @@ namespace Tadcka\Bundle\TreeBundle\Controller;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Translation\TranslatorInterface;
 use Tadcka\Bundle\TreeBundle\Form\Factory\NodeFormFactory;
 use Tadcka\Bundle\TreeBundle\Form\Handler\NodeFormHandler;
 use Tadcka\Bundle\TreeBundle\Form\Type\NodeFormType;
@@ -26,56 +28,58 @@ use Tadcka\Bundle\TreeBundle\Registry\TreeRegistry;
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
  *
- * @since 4/2/14 11:11 PM
+ * @since  4/2/14 11:11 PM
  */
 class NodeController extends ContainerAware
 {
     public function createAction(Request $request, $id)
     {
         $parent = $this->getManager()->findNode($id);
-        if (null !== $parent) {
-            $node = $this->getManager()->create();
-            $node->setParent($parent);
-            $form = $this->getFormFactory()->create($node);
-
-            if ($this->getFormHandler()->process($request, $form)) {
-                $this->getManager()->save();
-
-                return new Response();
-            }
-
-            return $this->container->get('templating')->renderResponse(
-                'TadckaTreeBundle:Node:form.html.twig',
-                array(
-                    'form' => $form->createView(),
-                )
-            );
+        if (null === $parent) {
+            throw new NotFoundHttpException();
         }
 
-        return new Response('Not found tree node!');
+        $node = $this->getManager()->create();
+        $node->setParent($parent);
+        $form = $this->getFormFactory()->create($node);
+
+        $messages = array();
+        if ($this->getFormHandler()->process($request, $form)) {
+            $this->getManager()->save();
+            $messages['success'] = $this->getTranslator()->trans('success_create_node', array(), 'TadckaTreeBundle');
+        }
+
+        return $this->container->get('templating')->renderResponse(
+            'TadckaTreeBundle:Node:form.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
     }
 
     public function editAction(Request $request, $id)
     {
         $node = $this->getManager()->findNode($id);
-        if (null !== $node) {
-            $form = $this->getFormFactory()->create($node);
 
-            if ($this->getFormHandler()->process($request, $form)) {
-                $this->getManager()->save();
-
-                return new Response();
-            }
-
-            return $this->container->get('templating')->renderResponse(
-                'TadckaTreeBundle:Node:form.html.twig',
-                array(
-                    'form' => $form->createView(),
-                )
-            );
+        if (null === $node) {
+            throw new NotFoundHttpException();
         }
 
-        return new Response('Not found tree node!');
+        $form = $this->getFormFactory()->create($node);
+
+        $messages = array();
+        if ($this->getFormHandler()->process($request, $form)) {
+            $this->getManager()->save();
+            $messages['success'] = $this->getTranslator()->trans('success_edit_node', array(), 'TadckaTreeBundle');
+        }
+
+        return $this->container->get('templating')->renderResponse(
+            'TadckaTreeBundle:Node:form.html.twig',
+            array(
+                'form' => $form->createView(),
+                'messages' => $messages,
+            )
+        );
     }
 
     public function deleteAction(Request $request, $id)
@@ -110,7 +114,10 @@ class NodeController extends ContainerAware
         if (null !== $root) {
             $tree = $this->getTreeManager()->findTreeByRootId($rootId);
             $iconPath = null;
-            if ((null !== $tree) && (null !== $config = $this->getTreeRegistry()->getConfigs()->get($tree->getSlug()))) {
+            if ((null !== $tree) && (null !== $config = $this->getTreeRegistry()->getConfigs()->get(
+                        $tree->getSlug()
+                    ))
+            ) {
                 $iconPath = $config->getIconPath();
             }
             $response = $this->getJsonResponseHelper()->getResponse(
@@ -135,6 +142,14 @@ class NodeController extends ContainerAware
         }
 
         return new Response();
+    }
+
+    /**
+     * @return TranslatorInterface
+     */
+    private function getTranslator()
+    {
+        return $this->container->get('translator');
     }
 
     /**

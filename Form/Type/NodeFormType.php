@@ -30,7 +30,7 @@ class NodeFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (0 < count($options['node_types'])) {
+        if (0 < count($options['node_types']) && (null !== $builder->getData()->getParent())) {
             $builder->add(
                 'type',
                 'choice',

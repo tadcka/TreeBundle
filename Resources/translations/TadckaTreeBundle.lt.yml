@@ -10,7 +10,7 @@ title: Pavadinimas
 unique_key: Unikalus raktas
 actions: Veiksmai
 not_found_title: Pavadinimas nerastas
-delete_confirm: Ar tikrai norite trinti medžio šaką?
+delete_confirm: Ar tikrai norite trinti medžio viršūnę?
 yes: Taip
 no: Ne
 
@@ -21,3 +21,6 @@ form:
   node:
     type: Tipas
   select: Pasirinkite
+
+success_creae_node: Sėkmingai sukurta nauja medžio viršūnė.
+success_edit_node: Sėkmingai redaguota medžio viršūnė.
