@@ -46,7 +46,7 @@ class NodeController extends ContainerAware
         $messages = array();
         if ($this->getFormHandler()->process($request, $form)) {
             $this->getManager()->save();
-            $messages['success'] = $this->getTranslator()->trans('success_create_node', array(), 'TadckaTreeBundle');
+            $messages['success'] = $this->getTranslator()->trans('success.create_node', array(), 'TadckaTreeBundle');
         }
 
         return $this->container->get('templating')->renderResponse(
@@ -70,7 +70,7 @@ class NodeController extends ContainerAware
         $messages = array();
         if ($this->getFormHandler()->process($request, $form)) {
             $this->getManager()->save();
-            $messages['success'] = $this->getTranslator()->trans('success_edit_node', array(), 'TadckaTreeBundle');
+            $messages['success'] = $this->getTranslator()->trans('success.edit_node', array(), 'TadckaTreeBundle');
         }
 
         return $this->container->get('templating')->renderResponse(

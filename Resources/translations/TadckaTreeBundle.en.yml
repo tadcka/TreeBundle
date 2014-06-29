@@ -22,5 +22,6 @@ form:
     type: Type
   select: Select
 
-success_creae_node: Successfully created a new node of the tree.
-success_edit_node: Successfully edited a tree node.
+success:
+  create_node: Successfully created a new node of the tree.
+  edit_node: Successfully edited a tree node.

@@ -22,5 +22,6 @@ form:
     type: Tipas
   select: Pasirinkite
 
-success_creae_node: Sėkmingai sukurta nauja medžio viršūnė.
-success_edit_node: Sėkmingai redaguota medžio viršūnė.
+success:
+  create_node: Sėkmingai sukurta nauja medžio viršūnė.
+  edit_node: Sėkmingai redaguota medžio viršūnė.
