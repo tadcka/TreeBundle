@@ -53,6 +53,7 @@ class NodeController extends ContainerAware
             'TadckaTreeBundle:Node:form.html.twig',
             array(
                 'form' => $form->createView(),
+                'messages' => $messages,
             )
         );
     }
@@ -114,10 +115,8 @@ class NodeController extends ContainerAware
         if (null !== $root) {
             $tree = $this->getTreeManager()->findTreeByRootId($rootId);
             $iconPath = null;
-            if ((null !== $tree) && (null !== $config = $this->getTreeRegistry()->getConfigs()->get(
-                        $tree->getSlug()
-                    ))
-            ) {
+            $config = $this->getTreeRegistry()->getConfigs()->get($tree->getSlug());
+            if ((null !== $tree) && (null !== $config)) {
                 $iconPath = $config->getIconPath();
             }
             $response = $this->getJsonResponseHelper()->getResponse(
