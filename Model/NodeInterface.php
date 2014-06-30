@@ -42,6 +42,22 @@ interface NodeInterface
     public function getType();
 
     /**
+     * Set priority.
+     *
+     * @param int $priority
+     *
+     * @return NodeInterface
+     */
+    public function setPriority($priority);
+
+    /**
+     * Get priority.
+     *
+     * @return int
+     */
+    public function getPriority();
+
+    /**
      * Set root.
      *
      * @param int $root

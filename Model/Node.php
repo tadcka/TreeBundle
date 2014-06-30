@@ -37,6 +37,11 @@ abstract class Node implements NodeInterface
     protected $type;
 
     /**
+     * @var int
+     */
+    protected $priority;
+
+    /**
      * @Gedmo\TreeRoot
      *
      * @var int
@@ -86,6 +91,7 @@ abstract class Node implements NodeInterface
     {
         $this->children = array();
         $this->translations = array();
+        $this->priority = 0;
     }
 
     /**
@@ -112,6 +118,24 @@ abstract class Node implements NodeInterface
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPriority()
+    {
+        return $this->priority;
     }
 
     /**

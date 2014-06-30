@@ -20,6 +20,7 @@ form:
     description: Aprašymas
   node:
     type: Tipas
+    priority: Prioritetas
   select: Pasirinkite
 
 success:
