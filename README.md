@@ -40,6 +40,14 @@ public function registerBundles()
 }
 ```
 
+[1. Configure the TadckaTreeBundle](https://github.com/tadcka/TreeBundle/blob/master/Resources/doc/Config.md)
+
+[2. Doctrine ORM](https://github.com/tadcka/TreeBundle/blob/master/Resources/doc/ORM.md)
+
+[3. Registry new tree](https://github.com/tadcka/TreeBundle/blob/master/Resources/doc/Registry.md)
+
+[4. Registry new tree node type](https://github.com/tadcka/TreeBundle/blob/master/Resources/doc/NodeType.md)
+
 License
 -------
 
