@@ -48,6 +48,11 @@ public function registerBundles()
 
 [4. Registry new tree node type](https://github.com/tadcka/TreeBundle/blob/master/Resources/doc/NodeType.md)
 
+
+### TODO
+
+Integrate JsTree context menu.
+
 License
 -------
 
