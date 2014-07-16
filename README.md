@@ -1,6 +1,10 @@
 TreeBundle
 ==========
 
+[![Build Status](https://scrutinizer-ci.com/g/tadcka/TreeBundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/tadcka/TreeBundle/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/tadcka/TreeBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/tadcka/TreeBundle/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/tadcka/TreeBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/tadcka/TreeBundle/?branch=master)
+
 Tree manager bundle, not stable.
 
 ## Installation
