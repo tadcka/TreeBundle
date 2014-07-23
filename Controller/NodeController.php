@@ -20,7 +20,6 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Tadcka\Bundle\TreeBundle\Event\NodeEvent;
 use Tadcka\Bundle\TreeBundle\Form\Factory\NodeFormFactory;
 use Tadcka\Bundle\TreeBundle\Form\Handler\NodeFormHandler;
-use Tadcka\Bundle\TreeBundle\Form\Type\NodeFormType;
 use Tadcka\Bundle\TreeBundle\Helper\FrontendHelper;
 use Tadcka\Bundle\TreeBundle\Helper\JsonResponseHelper;
 use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
