@@ -12,10 +12,12 @@
 namespace Tadcka\Bundle\TreeBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Translation\TranslatorInterface;
+use Tadcka\Bundle\TreeBundle\Event\NodeEvent;
 use Tadcka\Bundle\TreeBundle\Form\Factory\NodeFormFactory;
 use Tadcka\Bundle\TreeBundle\Form\Handler\NodeFormHandler;
 use Tadcka\Bundle\TreeBundle\Form\Type\NodeFormType;
@@ -24,6 +26,7 @@ use Tadcka\Bundle\TreeBundle\Helper\JsonResponseHelper;
 use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
 use Tadcka\Bundle\TreeBundle\ModelManager\TreeManagerInterface;
 use Tadcka\Bundle\TreeBundle\Registry\TreeRegistry;
+use Tadcka\Bundle\TreeBundle\TadckaTreeEvents;
 
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
@@ -47,6 +50,8 @@ class NodeController extends ContainerAware
         if ($this->getFormHandler()->process($request, $form)) {
             $this->getManager()->save();
             $messages['success'] = $this->getTranslator()->trans('success.create_node', array(), 'TadckaTreeBundle');
+
+            $this->getEventDispacher()->dispatch(TadckaTreeEvents::NODE_CREATE_SUCCESS, new NodeEvent($node));
         }
 
         return $this->container->get('templating')->renderResponse(
@@ -72,6 +77,8 @@ class NodeController extends ContainerAware
         if ($this->getFormHandler()->process($request, $form)) {
             $this->getManager()->save();
             $messages['success'] = $this->getTranslator()->trans('success.edit_node', array(), 'TadckaTreeBundle');
+
+            $this->getEventDispacher()->dispatch(TadckaTreeEvents::NODE_EDIT_SUCCESS, new NodeEvent($node));
         }
 
         return $this->container->get('templating')->renderResponse(
@@ -90,6 +97,8 @@ class NodeController extends ContainerAware
             if (null !== $node->getParent()) {
                 if ($request->isMethod('DELETE')) {
                     $this->getManager()->delete($node);
+
+                    $this->getEventDispacher()->dispatch(TadckaTreeEvents::NODE_DELETE_SUCCESS, new NodeEvent($node));
 
                     return new Response();
                 }
@@ -207,5 +216,13 @@ class NodeController extends ContainerAware
     private function getTreeRegistry()
     {
         return $this->container->get('tadcka_tree.registry.tree');
+    }
+
+    /**
+     * @return EventDispatcherInterface
+     */
+    private function getEventDispacher()
+    {
+        return $this->container->get('event_dispatcher');
     }
 }
