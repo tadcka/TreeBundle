@@ -49,7 +49,7 @@ class NodeController extends ContainerAware
         if ($this->getFormHandler()->process($request, $form)) {
             $tree =$this->getTreeManager()->findTreeByRootId($parent->getRoot());
 
-            $this->getEventDispacher()->dispatch(TadckaTreeEvents::PRE_NODE_CREATE_SUCCESS, new NodeEvent($node, $tree));
+            $this->getEventDispacher()->dispatch(TadckaTreeEvents::NODE_PRE_CREATE, new NodeEvent($node, $tree));
             $this->getManager()->save();
 
             $messages['success'] = $this->getTranslator()->trans('success.create_node', array(), 'TadckaTreeBundle');
