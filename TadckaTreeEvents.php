@@ -18,6 +18,8 @@ namespace Tadcka\Bundle\TreeBundle;
  */
 class TadckaTreeEvents
 {
+    const PRE_NODE_CREATE_SUCCESS = 'tadcka_tree.node.pre_create.success';
+
     const NODE_CREATE_SUCCESS = 'tadcka_tree.node.create.success';
 
     const NODE_EDIT_SUCCESS = 'tadcka_tree.node.edit.success';

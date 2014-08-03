@@ -13,6 +13,7 @@ namespace Tadcka\Bundle\TreeBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 use Tadcka\Bundle\TreeBundle\Model\NodeInterface;
+use Tadcka\Bundle\TreeBundle\Model\TreeInterface;
 
 /**
  * @author Tadas Gliaubicas <tadcka89@gmail.com>
@@ -27,13 +28,20 @@ class NodeEvent extends Event
     private $node;
 
     /**
+     * @var TreeInterface
+     */
+    private $tree;
+
+    /**
      * Constructor.
      *
      * @param NodeInterface $node
+     * @param TreeInterface $tree
      */
-    public function __construct(NodeInterface $node)
+    public function __construct(NodeInterface $node, TreeInterface $tree)
     {
         $this->node = $node;
+        $this->tree = $tree;
     }
 
     /**
@@ -44,5 +52,15 @@ class NodeEvent extends Event
     public function getNode()
     {
         return $this->node;
+    }
+
+    /**
+     * Get tree.
+     *
+     * @return TreeInterface
+     */
+    public function getTree()
+    {
+        return $this->tree;
     }
 }

@@ -47,10 +47,15 @@ class NodeController extends ContainerAware
 
         $messages = array();
         if ($this->getFormHandler()->process($request, $form)) {
+            $tree =$this->getTreeManager()->findTreeByRootId($parent->getRoot());
+
+            $this->getEventDispacher()->dispatch(TadckaTreeEvents::PRE_NODE_CREATE_SUCCESS, new NodeEvent($node, $tree));
             $this->getManager()->save();
+
             $messages['success'] = $this->getTranslator()->trans('success.create_node', array(), 'TadckaTreeBundle');
 
-            $this->getEventDispacher()->dispatch(TadckaTreeEvents::NODE_CREATE_SUCCESS, new NodeEvent($node));
+            $this->getEventDispacher()->dispatch(TadckaTreeEvents::NODE_CREATE_SUCCESS, new NodeEvent($node, $tree));
+            $this->getManager()->save();
         }
 
         return $this->container->get('templating')->renderResponse(
@@ -74,10 +79,12 @@ class NodeController extends ContainerAware
 
         $messages = array();
         if ($this->getFormHandler()->process($request, $form)) {
+            $this->getEventDispacher()->dispatch(
+                TadckaTreeEvents::NODE_EDIT_SUCCESS,
+                new NodeEvent($node, $this->getTreeManager()->findTreeByRootId($node->getRoot()))
+            );
             $this->getManager()->save();
             $messages['success'] = $this->getTranslator()->trans('success.edit_node', array(), 'TadckaTreeBundle');
-
-            $this->getEventDispacher()->dispatch(TadckaTreeEvents::NODE_EDIT_SUCCESS, new NodeEvent($node));
         }
 
         return $this->container->get('templating')->renderResponse(
@@ -95,9 +102,11 @@ class NodeController extends ContainerAware
         if ((null !== $node)) {
             if (null !== $node->getParent()) {
                 if ($request->isMethod('DELETE')) {
-                    $this->getManager()->delete($node);
-
-                    $this->getEventDispacher()->dispatch(TadckaTreeEvents::NODE_DELETE_SUCCESS, new NodeEvent($node));
+                    $this->getEventDispacher()->dispatch(
+                        TadckaTreeEvents::NODE_DELETE_SUCCESS,
+                        new NodeEvent($node, $this->getTreeManager()->findTreeByRootId($node->getRoot()))
+                    );
+                    $this->getManager()->delete($node, true);
 
                     return new Response();
                 }
