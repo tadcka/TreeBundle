@@ -38,9 +38,9 @@ class TreeController extends ContainerAware
         if (true === $handler->process($request, $form)) {
             $this->getNodeManager()->save();
 
-            $handler->onSuccess($form->getData());
+            $handler->createTree($form->getData());
 
-            return new RedirectResponse($this->container->get('router')->generate('tadcka_list_of_tree'));
+            return new RedirectResponse($this->container->get('router')->generate('tadcka_list_tree'));
         }
 
         return $this->getTemplating()->renderResponse(

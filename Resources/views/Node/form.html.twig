@@ -1,6 +1,4 @@
-{% for type, message in messages %}
-    <div class="alert alert-{{ type }}" role="alert">{{ message }}</div>
-{% endfor %}
+{% include 'TadckaTreeBundle::messages.html.twig' with {messages: messages} %}
 
 {{ form_start(form) }}
     {{ form_errors(form) }}

@@ -26,3 +26,4 @@ form:
 success:
   create_node: Successfully created a new node of the tree.
   edit_node: Successfully edited a tree node.
+  delete_node: Successfully removed a tree node.

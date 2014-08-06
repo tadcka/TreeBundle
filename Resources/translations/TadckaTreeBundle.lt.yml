@@ -26,3 +26,4 @@ form:
 success:
   create_node: Sėkmingai sukurta nauja medžio viršūnė.
   edit_node: Sėkmingai redaguota medžio viršūnė.
+  delete_node: Sėkmingai pašalinta medžio viršūnė.

@@ -73,7 +73,7 @@ class NodeFormHandler
      *
      * @param NodeInterface $node
      */
-    public function onSuccess(NodeInterface $node)
+    public function createTree(NodeInterface $node)
     {
         if (null === $node->getParent()) {
             $tree = $this->treeManager->findTreeByRootId($node->getRoot());

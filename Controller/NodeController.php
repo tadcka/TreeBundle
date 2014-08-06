@@ -13,15 +13,20 @@ namespace Tadcka\Bundle\TreeBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Tadcka\Bundle\TreeBundle\Event\NodeEvent;
 use Tadcka\Bundle\TreeBundle\Form\Factory\NodeFormFactory;
 use Tadcka\Bundle\TreeBundle\Form\Handler\NodeFormHandler;
 use Tadcka\Bundle\TreeBundle\Helper\FrontendHelper;
 use Tadcka\Bundle\TreeBundle\Helper\JsonResponseHelper;
+use Tadcka\Bundle\TreeBundle\Model\NodeInterface;
 use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
 use Tadcka\Bundle\TreeBundle\ModelManager\TreeManagerInterface;
 use Tadcka\Bundle\TreeBundle\Registry\TreeRegistry;
@@ -36,10 +41,7 @@ class NodeController extends ContainerAware
 {
     public function createAction(Request $request, $id)
     {
-        $parent = $this->getManager()->findNode($id);
-        if (null === $parent) {
-            throw new NotFoundHttpException();
-        }
+        $parent = $this->getNode($id);
 
         $node = $this->getManager()->create();
         $node->setParent($parent);
@@ -47,39 +49,52 @@ class NodeController extends ContainerAware
 
         $messages = array();
         if ($this->getFormHandler()->process($request, $form)) {
-            $tree =$this->getTreeManager()->findTreeByRootId($parent->getRoot());
+            $nodeEvent = new NodeEvent($node, $this->getTreeManager()->findTreeByRootId($parent->getRoot()));
 
-            $this->getEventDispacher()->dispatch(TadckaTreeEvents::NODE_PRE_CREATE, new NodeEvent($node, $tree));
+            $this->getEventDispatcher()->dispatch(TadckaTreeEvents::NODE_PRE_CREATE, $nodeEvent);
             $this->getManager()->save();
 
             $messages['success'] = $this->getTranslator()->trans('success.create_node', array(), 'TadckaTreeBundle');
 
-            $this->getEventDispacher()->dispatch(TadckaTreeEvents::NODE_CREATE_SUCCESS, new NodeEvent($node, $tree));
+            $this->getEventDispatcher()->dispatch(TadckaTreeEvents::NODE_CREATE_SUCCESS, $nodeEvent);
             $this->getManager()->save();
+
+            if ($request->isXmlHttpRequest()) {
+                $content = $this->getTemplating()->render(
+                    'TadckaTreeBundle::messages.html.twig',
+                    array('messages' => $messages)
+                );
+
+                return new JsonResponse(array('content' => $content, 'node_id' => $node->getId()));
+            }
+
+            return new RedirectResponse($this->getRouter()->generate('tadcka_list_tree'));
         }
 
-        return $this->container->get('templating')->renderResponse(
+        $content = $this->getTemplating()->render(
             'TadckaTreeBundle:Node:form.html.twig',
             array(
                 'form' => $form->createView(),
                 'messages' => $messages,
             )
         );
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(array('content' => $content, 'node_id' => null));
+        }
+
+        return new Response($content);
     }
 
     public function editAction(Request $request, $id)
     {
-        $node = $this->getManager()->findNode($id);
-
-        if (null === $node) {
-            throw new NotFoundHttpException();
-        }
+        $node = $this->getNode($id);
 
         $form = $this->getFormFactory()->create($node);
 
         $messages = array();
         if ($this->getFormHandler()->process($request, $form)) {
-            $this->getEventDispacher()->dispatch(
+            $this->getEventDispatcher()->dispatch(
                 TadckaTreeEvents::NODE_EDIT_SUCCESS,
                 new NodeEvent($node, $this->getTreeManager()->findTreeByRootId($node->getRoot()))
             );
@@ -87,7 +102,8 @@ class NodeController extends ContainerAware
             $messages['success'] = $this->getTranslator()->trans('success.edit_node', array(), 'TadckaTreeBundle');
         }
 
-        return $this->container->get('templating')->renderResponse(
+
+        return $this->renderResponse(
             'TadckaTreeBundle:Node:form.html.twig',
             array(
                 'form' => $form->createView(),
@@ -98,31 +114,23 @@ class NodeController extends ContainerAware
 
     public function deleteAction(Request $request, $id)
     {
-        $node = $this->getManager()->findNode($id);
-        if ((null !== $node)) {
-            if (null !== $node->getParent()) {
-                if ($request->isMethod('DELETE')) {
-                    $this->getEventDispacher()->dispatch(
-                        TadckaTreeEvents::NODE_DELETE_SUCCESS,
-                        new NodeEvent($node, $this->getTreeManager()->findTreeByRootId($node->getRoot()))
-                    );
-                    $this->getManager()->delete($node, true);
+        $node = $this->getNode($id);
 
-                    return new Response();
-                }
+        if (null !== $node->getParent()) {
+            if ($request->isMethod('DELETE')) {
+                $tree = $this->getTreeManager()->findTreeByRootId($node->getRoot());
+                $this->getEventDispatcher()->dispatch(TadckaTreeEvents::NODE_DELETE_SUCCESS, new NodeEvent($node, $tree));
+                $this->getManager()->delete($node, true);
 
-                return $this->container->get('templating')->renderResponse(
-                    'TadckaTreeBundle:Node:delete.html.twig',
-                    array(
-                        'node_id' => $id
-                    )
-                );
-            } else {
-                return new Response("Don't delete the tree root!");
+                $messages['success'] = $this->getTranslator()->trans('success.delete_node', array(), 'TadckaTreeBundle');
+
+                return $this->renderResponse('TadckaTreeBundle::messages.html.twig', array('messages' => $messages));
             }
+
+            return $this->renderResponse('TadckaTreeBundle:Node:delete.html.twig', array('node_id' => $id));
         }
 
-        return new Response('Not found tree node!');
+        throw new NotFoundHttpException("Don't delete the tree root!");
     }
 
 
@@ -143,21 +151,45 @@ class NodeController extends ContainerAware
             return $response;
         }
 
-        return new Response();
+        throw new NotFoundHttpException();
     }
 
     public function getNodeAction(Request $request, $id)
     {
-        $node = $this->getManager()->findNode($id);
-        if (null !== $node) {
-            $response = $this->getJsonResponseHelper()->getResponse(
-                $this->getFrontendHelper()->getNodeChildren($node, $request->getLocale())
-            );
+        $node = $this->getNode($id);
 
-            return $response;
-        }
+        return $this->getJsonResponseHelper()->getResponse(
+            $this->getFrontendHelper()->getNodeChildren($node, $request->getLocale())
+        );
+    }
 
-        return new Response();
+    /**
+     * @return EngineInterface
+     */
+    private function getTemplating()
+    {
+        return $this->container->get('templating');
+    }
+
+    /**
+     * Render response.
+     *
+     * @param string $view
+     * @param array $parameters
+     *
+     * @return Response
+     */
+    private function renderResponse($view, array $parameters = array())
+    {
+        return new Response($this->getTemplating()->render($view, $parameters));
+    }
+
+    /**
+     * @return RouterInterface
+     */
+    private function getRouter()
+    {
+        return $this->container->get('router');
     }
 
     /**
@@ -229,8 +261,27 @@ class NodeController extends ContainerAware
     /**
      * @return EventDispatcherInterface
      */
-    private function getEventDispacher()
+    private function getEventDispatcher()
     {
         return $this->container->get('event_dispatcher');
+    }
+
+    /**
+     * Get node.
+     *
+     * @param int $id
+     *
+     * @return null|NodeInterface
+     *
+     * @throws NotFoundHttpException
+     */
+    private function getNode($id)
+    {
+        $node = $this->getManager()->findNode($id);
+        if (null === $node) {
+            throw new NotFoundHttpException('Not found node!');
+        }
+
+        return $node;
     }
 }

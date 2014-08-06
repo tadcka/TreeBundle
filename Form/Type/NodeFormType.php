@@ -80,12 +80,12 @@ class NodeFormType extends AbstractType
                 'translation_domain' => 'TadckaTreeBundle',
                 'attr' => array('class' => 'tadcka_node'),
                 'constraints' => function (Options $options) {
-                        if (0 < count($options['node_types'])) {
-                            return array(new NodeType());
-                        }
+                    if (0 < count($options['node_types'])) {
+                        return array(new NodeType());
+                    }
 
-                        return array();
-                    },
+                    return array();
+                },
             )
         );
     }

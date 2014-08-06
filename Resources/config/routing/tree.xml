@@ -8,7 +8,7 @@
         <default key="_controller">TadckaTreeBundle:Tree:create</default>
     </route>
 
-    <route id="tadcka_list_of_tree" pattern="/trees/{page}">
+    <route id="tadcka_list_tree" pattern="/trees/{page}">
         <default key="_controller">TadckaTreeBundle:Tree:list</default>
         <default key="page">1</default>
     </route>
