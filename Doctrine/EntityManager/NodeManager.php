@@ -70,6 +70,14 @@ class NodeManager extends BaseNodeManager
     /**
      * {@inheritdoc}
      */
+    public function findNodesByType($type)
+    {
+        return $this->repository->findBy(array('type' => $type));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findRoots(array $rootIds)
     {
         $qb = $this->repository->createQueryBuilder('n');

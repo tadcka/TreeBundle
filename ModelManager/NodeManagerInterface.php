@@ -39,6 +39,15 @@ interface NodeManagerInterface
     public function findRoot($rootId);
 
     /**
+     * Find nodes by type.
+     *
+     * @param string $type
+     *
+     * @return array||NodeInterface[]
+     */
+    public function findNodesByType($type);
+
+    /**
      * Find roots.
      *
      * @param array $rootIds
