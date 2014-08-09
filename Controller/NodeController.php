@@ -119,8 +119,11 @@ class NodeController extends ContainerAware
         if (null !== $node->getParent()) {
             if ($request->isMethod('DELETE')) {
                 $tree = $this->getTreeManager()->findTreeByRootId($node->getRoot());
-                $this->getEventDispatcher()->dispatch(TadckaTreeEvents::NODE_DELETE_SUCCESS, new NodeEvent($node, $tree));
+                $nodeEvent = new NodeEvent($node, $tree);
+                $this->getEventDispatcher()->dispatch(TadckaTreeEvents::NODE_PRE_DELETE, $nodeEvent);
                 $this->getManager()->delete($node, true);
+                $this->getEventDispatcher()->dispatch(TadckaTreeEvents::NODE_DELETE_SUCCESS, $nodeEvent);
+                $this->getManager()->save();
 
                 $messages['success'] = $this->getTranslator()->trans('success.delete_node', array(), 'TadckaTreeBundle');
 
