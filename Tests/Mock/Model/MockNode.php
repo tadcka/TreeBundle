@@ -23,13 +23,25 @@ use Tadcka\Bundle\TreeBundle\Model\NodeTranslationInterface;
 class MockNode extends Node
 {
     /**
-     * Add child.
+     * Set id.
      *
-     * @param NodeInterface $child
+     * @param int $id
+     *
+     * @return MockNode
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function addChild(NodeInterface $child)
     {
-        // TODO: Implement addChild() method.
+        $this->children[] = $child;
     }
 
     /**
@@ -37,7 +49,6 @@ class MockNode extends Node
      */
     public function removeChild(NodeInterface $child)
     {
-        // TODO: Implement removeChild() method.
     }
 
     /**
