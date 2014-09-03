@@ -11,6 +11,7 @@
 
 namespace Tadcka\Bundle\TreeBundle\Model;
 
+use Tadcka\Component\Tree\Model\Node as BaseNode;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -18,29 +19,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @since 4/2/14 10:47 PM
  */
-
-/**
- * Class Node
- *
- * @package Tadcka\Bundle\TreeBundle\Model
- */
-abstract class Node implements NodeInterface
+abstract class Node extends BaseNode implements NodeInterface
 {
-    /**
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * @var string
-     */
-    protected $type;
-
-    /**
-     * @var int
-     */
-    protected $priority;
-
     /**
      * @Gedmo\TreeRoot
      *
@@ -68,75 +48,6 @@ abstract class Node implements NodeInterface
      * @Gedmo\TreeRight
      */
     protected $right;
-
-    /**
-     * @var NodeInterface
-     */
-    protected $parent;
-
-    /**
-     * @var array|NodeInterface[]
-     */
-    protected $children;
-
-    /**
-     * @var array|NodeTranslationInterface[]
-     */
-    protected $translations;
-
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        $this->children = array();
-        $this->translations = array();
-        $this->priority = 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setPriority($priority)
-    {
-        $this->priority = $priority;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
-    {
-        return $this->priority;
-    }
 
     /**
      * {@inheritdoc}
@@ -208,73 +119,5 @@ abstract class Node implements NodeInterface
     public function getRight()
     {
         return $this->right;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setParent(NodeInterface $parent)
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setChildren($children)
-    {
-        $this->children = $children;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setTranslations($translations)
-    {
-        $this->translations = $translations;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTranslations()
-    {
-        return $this->translations;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTranslation($lang)
-    {
-        foreach ($this->translations as $translation) {
-            if ($lang === $translation->getLang()) {
-                return $translation;
-            }
-        }
-
-        return null;
     }
 }
