@@ -31,13 +31,20 @@ class NodeTranslationFormType extends AbstractType
         $builder->add(
             'title',
             'text',
-            array('label' => 'form.node_translation.title', 'constraints' => array(new NotBlank()))
+            array(
+                'label' => 'form.node_translation.title',
+                'constraints' => array(new NotBlank()),
+                'required' => false,
+            )
         );
 
         $builder->add(
             'description',
             'textarea',
-            array('label' => 'form.node_translation.description', 'required' => false)
+            array(
+                'label' => 'form.node_translation.description',
+                'required' => false
+            )
         );
     }
 

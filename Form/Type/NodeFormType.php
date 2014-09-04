@@ -60,7 +60,7 @@ class NodeFormType extends AbstractType
                 'label' => false,
                 'type' => new NodeTranslationFormType(),
                 'options' => array(
-                    'data_class' => $options['translation_class']
+                    'data_class' => $options['translation_class'],
                 ),
             )
         );
