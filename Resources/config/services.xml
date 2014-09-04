@@ -19,6 +19,7 @@
         <!--Tree node type manager-->
         <service id="tadcka_tree.manager.node_type" class="%tadcka_tree.manager.node_type.class%">
             <argument type="service" id="tadcka_tree.registry.node_type" />
+            <argument type="service" id="tadcka_tree.manager.node" />
         </service>
 
         <!--Tree provider-->

@@ -12,6 +12,7 @@
 namespace Tadcka\Bundle\TreeBundle\NodeType;
 
 use Tadcka\Bundle\TreeBundle\Model\NodeInterface;
+use Tadcka\Bundle\TreeBundle\ModelManager\NodeManagerInterface;
 use Tadcka\Bundle\TreeBundle\NodeType\Registry\NodeTypeConfig;
 use Tadcka\Bundle\TreeBundle\NodeType\Registry\NodeTypeRegistry;
 
@@ -28,13 +29,20 @@ class NodeTypeManager
     private $registry;
 
     /**
+     * @var NodeManagerInterface
+     */
+    private $nodeManager;
+
+    /**
      * Constructor.
      *
      * @param NodeTypeRegistry $registry
+     * @param NodeManagerInterface $nodeManager
      */
-    public function __construct(NodeTypeRegistry $registry)
+    public function __construct(NodeTypeRegistry $registry, NodeManagerInterface $nodeManager)
     {
         $this->registry = $registry;
+        $this->nodeManager = $nodeManager;
     }
 
     /**
@@ -46,7 +54,8 @@ class NodeTypeManager
      */
     public function isValid(NodeInterface $node)
     {
-        if ((null !== $config = $this->getConfig($node->getType())) && (null !== $parent = $node->getParent())) {
+        $config = $this->getConfig($node->getType());
+        if ((null !== $config) && (null !== $parent = $node->getParent()) && $this->isOnlyOne($config, $node->getRoot())) {
             return $this->hasType($parent->getType(), $config->getParentTypes());
         }
 
@@ -68,14 +77,22 @@ class NodeTypeManager
     /**
      * Get normalized types.
      *
+     * @param int $root
+     *
      * @return array
      */
-    public function getNormalizedTypes()
+    public function getNormalizedTypes($root)
     {
-        $types = array();
+        $existingTypes = array();
+        if (null !== $root) {
+            $existingTypes = $this->nodeManager->findExistingNodeTypes($root);
+        }
 
+        $types = array();
         foreach ($this->registry->getContainer()->all() as $config) {
-            $types[$config->getSlug()] = $config->getName();
+            if ((false === $config->isOnlyOne()) || (false === in_array($config->getSlug(), $existingTypes))) {
+                $types[$config->getSlug()] = $config->getName();
+            }
         }
 
         return $types;
@@ -115,5 +132,27 @@ class NodeTypeManager
     private function isEmptyType($nodeType, array $types)
     {
         return (null === $nodeType) && (0 === count($types));
+    }
+
+    /**
+     * Is only one.
+     *
+     * @param NodeTypeConfig $config
+     * @param int $root
+     *
+     * @return bool
+     */
+    private function isOnlyOne(NodeTypeConfig $config, $root)
+    {
+        $existingTypes = array();
+        if (null !== $root) {
+            $existingTypes = $this->nodeManager->findExistingNodeTypes($root);
+        }
+
+        if ((false === $config->isOnlyOne()) || (false === in_array($config->getSlug(), $existingTypes))) {
+            return true;
+        }
+
+        return false;
     }
 }

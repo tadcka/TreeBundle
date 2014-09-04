@@ -39,19 +39,26 @@ class NodeTypeConfig
     private $parentTypes = array();
 
     /**
+     * @var bool
+     */
+    private $isOnlyOne;
+
+    /**
      * Constructor.
      *
      * @param string $name
      * @param string $slug
-     * @param null|string $iconPath
+     * @param string $iconPath
      * @param array $parentTypes
+     * @param bool $isOnlyOne
      */
-    public function __construct($name, $slug, $iconPath = null, array $parentTypes = array())
+    public function __construct($name, $slug, $iconPath, array $parentTypes = array(), $isOnlyOne = false)
     {
         $this->name = $name;
         $this->slug = $slug;
         $this->parentTypes = $parentTypes;
         $this->iconPath = $iconPath;
+        $this->isOnlyOne = $isOnlyOne;
     }
 
     /**
@@ -92,5 +99,15 @@ class NodeTypeConfig
     public function getParentTypes()
     {
         return $this->parentTypes;
+    }
+
+    /**
+     * Is only one.
+     *
+     * @return bool
+     */
+    public function isOnlyOne()
+    {
+        return $this->isOnlyOne;
     }
 }

@@ -57,6 +57,15 @@ interface NodeManagerInterface
     public function findRoots(array $rootIds);
 
     /**
+     * Find existing node types.
+     *
+     * @param int $root
+     *
+     * @return array
+     */
+    public function findExistingNodeTypes($root);
+
+    /**
      * Create node object.
      *
      * @return NodeInterface

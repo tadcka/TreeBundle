@@ -95,6 +95,27 @@ class NodeManager extends BaseNodeManager
     /**
      * {@inheritdoc}
      */
+    public function findExistingNodeTypes($root)
+    {
+        $qb = $this->repository->createQueryBuilder('n');
+
+        $qb->andWhere($qb->expr()->eq('n.root', ':root'))
+            ->setParameter('root', $root);
+        $qb->andWhere($qb->expr()->isNotNull('n.type'));
+
+        $qb->select('DISTINCT n.type');
+
+        $result = array();
+        foreach ($qb->getQuery()->getResult() as $row) {
+            $result[] = $row['type'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function add(NodeInterface $node, $save = false)
     {
         $this->em->persist($node);
